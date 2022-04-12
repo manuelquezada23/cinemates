@@ -5,6 +5,7 @@ import NotificationsPage from './main-pages/NotificationsPage.js'
 import SearchPage from './main-pages/SearchPage.js'
 import UserPage from './main-pages/UserPage.js'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { View, Text, StyleSheet, Image, FlatList, Button } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 

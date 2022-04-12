@@ -22,16 +22,10 @@ export default function App() {
         <Stack.Screen name="Interest Guide" component={InterestGuide} options={{ headerShown: false }} />
         <Stack.Screen name="Select Your Interest" component={Interest} options={{ headerShown: false }} />
         <Stack.Screen name="Movies Seen" component={MoviesSeen} options={{ headerShown: false }} />
-        <Stack.Screen name="Sync Contacts" component={SyncContacts} options={{
-          headerRight: () => (
-            <Button
-              title="Done"
-              color="#FF3D60"
-            />
-          )}}/>
+        <Stack.Screen name="Sync Contacts" component={SyncContacts}/>
+        <Stack.Screen name="Main" component={Main} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
-    // <Main/>
   );
 }
 
