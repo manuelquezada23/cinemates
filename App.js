@@ -19,9 +19,9 @@ export default function App() {
         <Stack.Screen name="Welcome" component={WelcomePage} options={{ headerShown: false }} />
         <Stack.Screen name="Sign Up Your Account" component={SignUp} />
         <Stack.Screen name="Sign In Your Account" component={SignIn} />
-        <Stack.Screen name="Interest Guide" component={InterestGuide} options={{ headerShown: false }} />
-        <Stack.Screen name="Select Your Interest" component={Interest} options={{ headerShown: false }} />
-        <Stack.Screen name="Movies Seen" component={MoviesSeen} options={{ headerShown: false }} />
+        <Stack.Screen name="Interest Guide" component={InterestGuide} options={{ headerShown: false, gestureEnabled: false }} />
+        <Stack.Screen name="Select Your Interest" component={Interest} options={{ headerShown: false, gestureEnabled: false }} />
+        <Stack.Screen name="Movies Seen" component={MoviesSeen} options={{ headerShown: false, gestureEnabled: false }} />
         <Stack.Screen name="Sync Contacts" component={SyncContacts}/>
         <Stack.Screen name="Main" component={Main} options={{headerShown: false}}/>
       </Stack.Navigator>
@@ -29,7 +29,7 @@ export default function App() {
   );
 }
 
-const theme = {
+const theme = { 
   colors: {
     background: 'white',
   },

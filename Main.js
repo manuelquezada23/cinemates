@@ -33,10 +33,10 @@ function Main({ navigation }) {
           tabBarLabel: () => { return null },
         })}
       >
-        <Tab.Screen name="Cinemates" component={HomePage} />
-        <Tab.Screen name="Search" component={SearchPage} />
-        <Tab.Screen name="Notifications" component={NotificationsPage} />
-        <Tab.Screen name="User" component={UserPage} />
+        <Tab.Screen name="Cinemates" component={HomePage} options={{gestureEnabled: false}}/>
+        <Tab.Screen name="Search" component={SearchPage} options={{headerShown: false, gestureEnabled: false}}/>
+        <Tab.Screen name="Notifications" component={NotificationsPage} options={{gestureEnabled: false, headerShown: false}}/>
+        <Tab.Screen name="User" component={UserPage} options={{gestureEnabled: false}}/>
       </Tab.Navigator>
     </NavigationContainer>
   );

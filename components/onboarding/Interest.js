@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import { LogBox, StyleSheet, Text, View, Dimensions, Image, Animated, PanResponder, Button } from 'react-native';
+import { LogBox, StyleSheet, Text, View, Dimensions, TouchableHighlight, Image, Animated, PanResponder, Button } from 'react-native';
 import Swiper from 'react-native-deck-swiper'
 import Stars from 'react-native-stars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const movies = [
-    { id: "1", uri: require('../../assets/1.jpg'), title: "Joker", stars: 4.5 },
-    { id: "2", uri: require('../../assets/2.jpg'), title: "Star Wars", stars: 3 },
-    { id: "3", uri: require('../../assets/3.jpg'), title: "Uncharted", stars: 2.5 },
-    { id: "4", uri: require('../../assets/4.jpg'), title: "Encanto", stars: 4 },
-    { id: "5", uri: require('../../assets/5.jpg'), title: "Star Wars", stars: 3 },
+    { id: "1", uri: require('../../assets/1.jpg'), title: "Joker", stars: 4.5, rating: 60 },
+    { id: "2", uri: require('../../assets/2.jpg'), title: "Star Wars", stars: 3, rating: 52 },
+    { id: "3", uri: require('../../assets/3.jpg'), title: "Uncharted", stars: 2.5, rating: 31 },
+    { id: "4", uri: require('../../assets/4.jpg'), title: "Encanto", stars: 4, rating: 99 },
+    { id: "5", uri: require('../../assets/5.jpg'), title: "Star Wars", stars: 3, rating: 24 },
 ]
 
-export default class Interest extends Component { 
+export default class Interest extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -32,7 +32,6 @@ export default class Interest extends Component {
                     <Stars
                         half={true}
                         default={card.stars}
-                        // update={(val) => { this.setState({ stars: val }) }}
                         spacing={4}
                         display={card.stars}
                         count={5}
@@ -41,6 +40,9 @@ export default class Interest extends Component {
                         halfStar={<Ionicons name="star-half-outline"></Ionicons>} />
                 </View>
                 <Text style={styles.movieTitle}>{card.title}</Text>
+                <View style={styles.circle}>
+                    <Text style={styles.circleText}>{card.rating}</Text>
+                </View>
             </View>
         )
     };
@@ -80,6 +82,7 @@ export default class Interest extends Component {
                     renderCard={this.renderCard}
                     onSwipedAll={this.onSwipedAllCards}
                     stackSize={3}
+                    stackSeparation={10}
                     backgroundColor="white"
                     marginTop={120}
                     marginBottom={100}
@@ -210,5 +213,23 @@ const styles = StyleSheet.create({
         fontSize: 16,
         height: 60,
         marginBottom: 0
+    },
+    circle: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: "white",
+        position: "absolute",
+        bottom: -70,
+        borderColor: "#BCBCBC",
+        borderWidth: 1,
+        borderStyle: "dashed",
+        alignSelf: "center"
+    },
+    circleText: {
+        fontSize: 24,
+        fontWeight: "bold",
+        textAlign: "center", 
+        lineHeight: 50
     }
 })
