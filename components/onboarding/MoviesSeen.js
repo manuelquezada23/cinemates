@@ -1,6 +1,9 @@
-import { View, Text, StyleSheet, Image, Dimensions, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, FlatList, TouchableOpacity } from 'react-native';
 import MainButton from '../MainButton'
 import MoreInfo from '../../assets/more-info.png'
+import React, { useRef } from 'react'
+import RBSheet from "react-native-raw-bottom-sheet";
+import MoreOptions from "../../components/MoreOptions"
 
 const movies = [
     { id: "1", uri: require('../../assets/1.jpg') },
@@ -12,18 +15,45 @@ const movies = [
 const numColumns = 3;
 const size = (Dimensions.get('window').width / numColumns) - (Dimensions.get('window').width * 0.015);
 
-function MoviesSeen({navigation}) {
+function MoviesSeen({ navigation }) {
+
+    const refRBSheet = useRef();
+
+    function moreInfoOnMovie() {
+        refRBSheet.current.open()
+    }
+
     return (
         <View style={styles.mainView}>
+            <RBSheet
+                ref={refRBSheet}
+                closeOnDragDown={true}
+                closeOnPressMask={false}
+                customStyles={{
+                    wrapper: {
+                        backgroundColor: "transparent"
+                    },
+                    draggableIcon: {
+                        backgroundColor: "#000"
+                    }
+                }}
+            >
+                <MoreOptions />
+            </RBSheet>
+
             <Text style={styles.title}>Movies You Have Seen</Text>
             <FlatList
                 data={movies}
                 style={styles.grid}
                 renderItem={({ item }) => (
-                    <View style={styles.itemContainer}>
+                    // <View style={styles.itemContainer}>
+                    //     <Image style={styles.item} source={item.uri}></Image>
+                    //     <Image style={styles.moreInfo} source={MoreInfo}></Image>
+                    // </View>
+                    <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
                         <Image style={styles.item} source={item.uri}></Image>
                         <Image style={styles.moreInfo} source={MoreInfo}></Image>
-                    </View>
+                    </TouchableOpacity>
                 )}
                 keyExtractor={item => item.id}
                 numColumns={numColumns} />
@@ -57,7 +87,7 @@ const styles = StyleSheet.create({
     },
     itemContainer: {
         width: size,
-        height: 200,
+        height: 170,
     },
     item: {
         flex: 1,
@@ -72,7 +102,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 10,
         right: 10
-    }
+    },
 });
 
 export default MoviesSeen;

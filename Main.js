@@ -36,7 +36,7 @@ function Main({ navigation }) {
         <Tab.Screen name="Cinemates" component={HomePage} options={{gestureEnabled: false}}/>
         <Tab.Screen name="Search" component={SearchPage} options={{headerShown: false, gestureEnabled: false}}/>
         <Tab.Screen name="Notifications" component={NotificationsPage} options={{gestureEnabled: false, headerShown: false}}/>
-        <Tab.Screen name="User" component={UserPage} options={{gestureEnabled: false}}/>
+        <Tab.Screen name="User" component={UserPage} options={{gestureEnabled: false, headerShown: false}}/>
       </Tab.Navigator>
     </NavigationContainer>
   );

@@ -197,7 +197,6 @@ const styles = StyleSheet.create({
     marginTop: 5
   },
   contactPicture: {
-    // flex: 1,
     margin: 3,
     width: 40,
     height: 40,

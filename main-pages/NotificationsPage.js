@@ -13,12 +13,12 @@ const notificationsThisWeek = [
 ]
 
 const notificationsThisMonth = [
-  { type: "user", name: "Jane Cooper", time: "3d" },
-  { type: "user", name: "Robert Fox", time: "3d" },
-  { type: "user", name: "Jacob Jones", time: "3d" },
-  { type: "movie", name: "Leslie Alexander", time: "5d", movieImage: require('../assets/2.jpg') },
-  { type: "user", name: "Robert Fox", time: "3d" },
-  { type: "user", name: "Jacob Jones", time: "3d" },
+  { type: "user", name: "Manuel Quezada", time: "3d" },
+  { type: "user", name: "Elon Musk", time: "3d" },
+  { type: "user", name: "Emma Amselem", time: "3d" },
+  { type: "movie", name: "Steve Jobs", time: "5d", movieImage: require('../assets/2.jpg') },
+  { type: "user", name: "Mark Zuckerberg", time: "3d" },
+  { type: "user", name: "Jeff Bezos", time: "3d" },
 ]
 
 const suggested = [
@@ -38,20 +38,24 @@ function NotificationsPage() {
     refRBSheet.current.open()
   }
 
+  function followButton() {
+    console.log("follow")
+  }
+
 
   function renderNotifications(array) {
     return array.map((data) => {
       if (data.type === "user") {
         return (
-          <View style={styles.notification}>
+          <View style={styles.notification} key={data.name}>
             <Image style={styles.image} source={IconFiller}></Image>
             <Text style={styles.userNotificationText}><Text style={{ fontWeight: "bold" }}>{data.name}</Text> started following you. <Text style={{ color: "#777777" }}>{data.time}</Text> </Text>
-            <View style={styles.button}><Button title="Follow" color="white"></Button></View>
+            <View style={styles.button}><Button title="Follow" color="white" onPress={followButton}></Button></View>
           </View>
         )
       } else if (data.type === "movie") {
         return (
-          <View style={styles.notification}>
+          <View style={styles.notification} key={data.name}>
             <Image style={styles.image} source={IconFiller}></Image>
             <View style={{ flexDirection: "column" }}>
               <Text style={styles.movieNotificationText}><Text style={{ fontWeight: "bold" }}>{data.name}</Text> sent you a movie. <Text style={{ color: "#777777" }}>{data.time}</Text></Text>
@@ -64,13 +68,13 @@ function NotificationsPage() {
         )
       } else if (data.type === "suggested") {
         return (
-          <View style={styles.notification}>
+          <View style={styles.notification} key={data.name}>
             <Image style={styles.image} source={IconFiller}></Image>
             <View style={{ flexDirection: "column" }}>
               <Text style={styles.suggestedNotificationText}>{data.name}</Text>
               <Text style={styles.subText}>{data.info}</Text>
             </View>
-            <View style={styles.button}><Button title="Follow" color="white"></Button></View>
+            <View style={styles.button}><Button title="Follow" color="white" onPress={followButton}></Button></View>
           </View>
         )
       }
