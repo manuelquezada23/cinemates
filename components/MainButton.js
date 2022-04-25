@@ -1,6 +1,6 @@
 import { View, Button, StyleSheet, Alert } from 'react-native';
 
-function MainButton({ buttonColor, textColor, text, onPress }) {
+function MainButton({ buttonColor, textColor, text, onPress, width }) {
     return (
         <View style={[{
             width: "95%",

@@ -5,7 +5,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import MoreOptions from "../components/MoreOptions"
 import MoreInfo from '../assets/more-info.png'
 import Stars from 'react-native-stars';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
 
 const currentUser = [
   { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), bio: "Radio jockey, music lover", followers: "12k", following: "850" },
@@ -20,9 +20,9 @@ const movies = [
 ]
 
 const reviews = [
-  { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), date: "10 Mar 2021", movie: require('../assets/1.jpg'), movieTitle: "Dead To Me", rating: 4, text: "The acting in this masterpiece of a show is astronomical. Like I'm WAY too invested in this show..." },
-  { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), date: "10 Mar 2021", movie: require('../assets/2.jpg'), movieTitle: "The Good Place", rating: 4, text: "This is one of the best Sitcom shows that I have ever watched. If I didn't had any other stuffs to do..." },
-  { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), date: "10 Mar 2021", movie: require('../assets/3.jpg'), movieTitle: "When We First Met", rating: 4, text: "Picture this you're bored scrolling through Netflix and  you find when we first me you got nothing..." },
+  { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), date: "10 Mar 2021", movie: require('../assets/1.jpg'), movieTitle: "Dead To Me", rating: 4, text: "The acting in this masterpiece of a show is astronomical. Like I'm WAY too invested in this show", numberOfReviews: 14, numberOfLikes: 324, liked: false },
+  { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), date: "10 Mar 2021", movie: require('../assets/2.jpg'), movieTitle: "The Good Place", rating: 4, text: "This is one of the best Sitcom shows that I have ever watched. If I didn't had any other stuffs to do", numberOfReviews: 14, numberOfLikes: 325, liked: true },
+  { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), date: "10 Mar 2021", movie: require('../assets/3.jpg'), movieTitle: "When We First Met", rating: 4, text: "Picture this you're bored scrolling through Netflix and  you find when we first me you got nothing", numberOfReviews: 14, numberOfLikes: 324, liked: false },
 ]
 
 function ActivityPage() {
@@ -33,6 +33,7 @@ function ActivityPage() {
 }
 
 function RecentWatches() {
+  const navigation = useNavigation()
   const refRBSheet = useRef();
   function moreInfoOnMovie() {
     refRBSheet.current.open()
@@ -43,7 +44,9 @@ function RecentWatches() {
       <View style={styles.sectionHeader}>
         <Text style={styles.title}>Movies <Text style={{ fontWeight: "normal" }}>(Watched)</Text></Text>
         <View style={styles.button}>
-          <Button title="View All" color="#FF3D60" />
+          <Button title="View All" color="#FF3D60" onPress={() => {
+            navigation.navigate("AssetsDisplay", {title: "Movies (Watched)"})
+          }} />
         </View>
       </View>
 
@@ -77,7 +80,9 @@ function RecentWatches() {
       <View style={styles.sectionHeader}>
         <Text style={styles.title}>TV Shows <Text style={{ fontWeight: "normal" }}>(Watched)</Text></Text>
         <View style={styles.button}>
-          <Button title="View All" color="#FF3D60" />
+        <Button title="View All" color="#FF3D60" onPress={() => {
+            navigation.navigate("AssetsDisplay", {title: "TV Shows (Watched)"})
+          }} />
         </View>
       </View>
 
@@ -97,6 +102,7 @@ function RecentWatches() {
 }
 
 function WatchLater() {
+  const navigation = useNavigation()
   const refRBSheet = useRef();
   function moreInfoOnMovie() {
     refRBSheet.current.open()
@@ -107,7 +113,9 @@ function WatchLater() {
       <View style={styles.sectionHeader}>
         <Text style={styles.title}>Movies</Text>
         <View style={styles.button}>
-          <Button title="View All" color="#FF3D60" />
+        <Button title="View All" color="#FF3D60" onPress={() => {
+            navigation.navigate("AssetsDisplay", {title: "Movies"})
+          }} />
         </View>
       </View>
 
@@ -141,7 +149,9 @@ function WatchLater() {
       <View style={styles.sectionHeader}>
         <Text style={styles.title}>TV Shows</Text>
         <View style={styles.button}>
-          <Button title="View All" color="#FF3D60" />
+        <Button title="View All" color="#FF3D60" onPress={() => {
+            navigation.navigate("AssetsDisplay", {title: "TV Shows"})
+          }} />
         </View>
       </View>
 
@@ -162,15 +172,32 @@ function WatchLater() {
 
 function Reviews() {
   const refRBSheet = useRef();
+
   function moreInfoOnMovie() {
     refRBSheet.current.open()
   }
 
   return (
     <View style={{ maxHeight: 350 }}>
+      <RBSheet
+        ref={refRBSheet}
+        closeOnDragDown={true}
+        closeOnPressMask={false}
+        customStyles={{
+          wrapper: {
+            backgroundColor: "transparent"
+          },
+          draggableIcon: {
+            backgroundColor: "#000"
+          }
+        }}
+      >
+        <MoreOptions />
+      </RBSheet>
+
       <ScrollView style={styles.subPage}>
         {reviews.map((review) => (
-          <View style={styles.review}>
+          <TouchableOpacity style={styles.review} key={review.movieTitle}>
 
             <View style={styles.reviewHeader}>
               <Image source={review.picture} style={styles.reviewPicture}></Image>
@@ -199,11 +226,28 @@ function Reviews() {
                     halfStar={<Ionicons name="star-half-outline"></Ionicons>} />
                 </View>
                 <Text style={styles.reviewMovieTitle}>{review.movieTitle}</Text>
-                <Text style={styles.reviewText}>{review.text}</Text>
+                <Text style={styles.reviewText} numberOfLines={3}>{review.text}</Text>
               </View>
 
             </View>
-          </View>
+            <View style={styles.reviewPostInfo}>
+              <View style={styles.reviewPostIcon}>
+                <Ionicons name="chatbubble-outline" size={20}></Ionicons>
+              </View>
+              <Text style={styles.reviewPostText}>{review.numberOfReviews} Reviews <Text style={{ color: "gray" }}> |</Text></Text>
+              {(review.liked === false) &&
+                <View style={styles.reviewPostIcon}>
+                  <Ionicons name="thumbs-up-outline" size={20}></Ionicons>
+                </View>
+              }
+              {(review.liked === true) &&
+                <View style={styles.reviewPostIcon}>
+                  <Ionicons name="thumbs-up" size={20}></Ionicons>
+                </View>
+              }
+              <Text style={styles.reviewPostText}>{review.numberOfLikes} Likes</Text>
+            </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>
@@ -357,6 +401,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingLeft: 20,
     paddingRight: 20,
+    zIndex: 1
   },
   title: {
     flex: 1,
@@ -478,12 +523,29 @@ const styles = StyleSheet.create({
     paddingBottom: 10
   },
   reviewText: {
-    fontSize: 14
+    fontSize: 14,
   },
   reviewRating: {
     left: 0,
     alignItems: "flex-start",
     paddingBottom: 10
+  },
+  reviewPostInfo: {
+    display: "flex",
+    flexDirection: "row",
+    left: 115,
+    marginTop: 5,
+    alignItems: "center",
+    width: "70%",
+    height: 30
+  },
+  reviewPostIcon: {
+    height: 30,
+    width: 30,
+    top: 3,
+  },
+  reviewPostText: {
+    marginRight: 10
   }
 });
 

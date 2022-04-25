@@ -46,10 +46,6 @@ function MoviesSeen({ navigation }) {
                 data={movies}
                 style={styles.grid}
                 renderItem={({ item }) => (
-                    // <View style={styles.itemContainer}>
-                    //     <Image style={styles.item} source={item.uri}></Image>
-                    //     <Image style={styles.moreInfo} source={MoreInfo}></Image>
-                    // </View>
                     <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
                         <Image style={styles.item} source={item.uri}></Image>
                         <Image style={styles.moreInfo} source={MoreInfo}></Image>
