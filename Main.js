@@ -8,6 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { View, Text, StyleSheet, Image, FlatList, Button } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AssetsDisplay from './components/AssetsDisplay.js';
+import MovieDisplay from './components/MovieDisplay.js';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -49,6 +50,7 @@ function Main() {
       <Stack.Navigator>
         <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
         <Stack.Screen name="AssetsDisplay" component={AssetsDisplay} options={{headerTintColor: "black"}}/>
+        <Stack.Screen name="MovieDisplay" component={MovieDisplay} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

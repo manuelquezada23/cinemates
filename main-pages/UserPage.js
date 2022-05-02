@@ -1,6 +1,6 @@
 import { View, FlatList, Text, StyleSheet, Image, TouchableOpacity, Button, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import React, { useRef, useState, useEffect, Component } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import RBSheet from "react-native-raw-bottom-sheet";
 import MoreOptions from "../components/MoreOptions"
 import MoreInfo from '../assets/more-info.png'
@@ -367,6 +367,7 @@ function Reviews() {
 
 function UserPage() {
   const refRBSheet = useRef();
+  const navigation = useNavigation()
 
   const [selection, setSelection] = useState(0);
 
@@ -395,7 +396,7 @@ function UserPage() {
       <View style={styles.sectionHeader}>
         <Text style={styles.title}>Favorite Movies/TV Shows</Text>
         <View style={styles.button}>
-          <Button title="View All" color="#FF3D60" />
+          <Button title="View All" color="#FF3D60" onPress={() => navigation.navigate("MovieDisplay")}/>
         </View>
       </View>
 
