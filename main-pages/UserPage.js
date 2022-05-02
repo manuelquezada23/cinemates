@@ -25,9 +25,120 @@ const reviews = [
   { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), date: "10 Mar 2021", movie: require('../assets/3.jpg'), movieTitle: "When We First Met", rating: 4, text: "Picture this you're bored scrolling through Netflix and  you find when we first me you got nothing", numberOfReviews: 14, numberOfLikes: 324, liked: false },
 ]
 
+const activities = [
+  { type: "recently watched", name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), text: "recently watched Mamma Mia and 12 other movies.", date: "5d", comments: 14, likes: 324, liked: false, movie: null },
+  { type: "review", name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), text: "reviewed Dead To Me.", date: "5d", comments: 32, likes: 143, liked: true, movie: require('../assets/1.jpg'), rating: 4, movieText: "The acting in this masterpiece of a show is astronomical. Like I’m WAY too invested in this show... Read More", numberOfReviews: 14, numberOfLikes: 324, reviewLiked: false },
+  { type: "watch later", name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), text: "added Hannah Montana and 3 other movies in her watch later.", date: "5d", comments: 14, likes: 324, liked: false, movie: null }
+]
+
 function ActivityPage() {
+  const navigation = useNavigation()
+  const refRBSheet = useRef();
+  function moreInfoOnMovie() {
+    refRBSheet.current.open()
+  }
   return (
-    <Text>activity</Text>
+    <View style={{ maxHeight: 350 }}>
+      <ScrollView style={styles.subPage}>
+        <RBSheet
+          ref={refRBSheet}
+          closeOnDragDown={true}
+          closeOnPressMask={false}
+          customStyles={{
+            wrapper: {
+              backgroundColor: "transparent"
+            },
+            draggableIcon: {
+              backgroundColor: "#000"
+            }
+          }}
+        >
+          <MoreOptions />
+        </RBSheet>
+        {activities.map((ac) => (
+          <TouchableOpacity style={styles.activity} key={ac.text}>
+            <View style={styles.reviewHeader}>
+              <Image source={ac.picture} style={styles.reviewPicture}></Image>
+              <View style={styles.activityHeaderInfo}>
+                <Text style={styles.reviewName}>{ac.name} <Text style={{ fontWeight: "normal" }}>{ac.text}</Text> <Text style={{ color: "gray", fontWeight: "normal", fontSize: 14 }}>{ac.date}</Text></Text>
+              </View>
+            </View>
+
+            {((ac.type === "recently watched") || (ac.type === "watch later")) &&
+              <FlatList
+                data={movies}
+                style={styles.activityMovieGrid}
+                renderItem={({ item }) => (
+                  <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
+                    <Image style={styles.item} source={item.uri}></Image>
+                    <Image style={styles.moreInfo} source={MoreInfo}></Image>
+                  </TouchableOpacity>
+                )}
+                keyExtractor={item => item.id}
+                horizontal={true} />
+            }
+
+            {(ac.type === "review") &&
+              <TouchableOpacity style={styles.activityReview}>
+                <TouchableOpacity style={styles.reviewItemContainer} onPress={moreInfoOnMovie}>
+                  <Image style={styles.item} source={ac.movie}></Image>
+                  <Image style={styles.moreInfo} source={MoreInfo}></Image>
+                </TouchableOpacity>
+                <View style={styles.activityReviewBodyInfo}>
+                  <View style={styles.reviewRating}>
+                    <Stars
+                      half={true}
+                      default={ac.rating}
+                      spacing={4}
+                      display={ac.rating}
+                      count={5}
+                      fullStar={<Ionicons name="star"></Ionicons>}
+                      emptyStar={<Ionicons name="star-outline"></Ionicons>}
+                      halfStar={<Ionicons name="star-half-outline"></Ionicons>} />
+                  </View>
+                  <Text style={styles.activityReviewText} numberOfLines={4}>{ac.movieText}</Text>
+                  <View style={styles.activityReviewPostInfo}>
+                    <View style={styles.activityReviewPostIcon}>
+                      <Ionicons name="chatbubble-outline" size={15}></Ionicons>
+                    </View>
+                    <Text style={styles.activityReviewPostText}>{ac.numberOfReviews} Reviews <Text style={{ color: "gray" }}> |</Text></Text>
+                    {(ac.reviewLiked === false) &&
+                      <View style={styles.activityReviewPostIcon}>
+                        <Ionicons name="thumbs-up-outline" size={15}></Ionicons>
+                      </View>
+                    }
+                    {(ac.reviewLiked === true) &&
+                      <View style={styles.activityReviewPostIcon}>
+                        <Ionicons name="thumbs-up" size={15}></Ionicons>
+                      </View>
+                    }
+                    <Text style={styles.activityReviewPostText}>{ac.numberOfLikes} Likes</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            }
+
+            <View style={styles.activityPostInfo}>
+              <View style={styles.reviewPostIcon}>
+                <Ionicons name="chatbubble-outline" size={20}></Ionicons>
+              </View>
+              <Text style={styles.reviewPostText}>{ac.comments} Comments <Text style={{ color: "gray" }}> |</Text></Text>
+              {(ac.liked === false) &&
+                <View style={styles.reviewPostIcon}>
+                  <Ionicons name="thumbs-up-outline" size={20}></Ionicons>
+                </View>
+              }
+              {(ac.liked === true) &&
+                <View style={styles.reviewPostIcon}>
+                  <Ionicons name="thumbs-up" size={20}></Ionicons>
+                </View>
+              }
+              <Text style={styles.reviewPostText}>{ac.likes} Likes</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </View>
   );
 
 }
@@ -45,7 +156,7 @@ function RecentWatches() {
         <Text style={styles.title}>Movies <Text style={{ fontWeight: "normal" }}>(Watched)</Text></Text>
         <View style={styles.button}>
           <Button title="View All" color="#FF3D60" onPress={() => {
-            navigation.navigate("AssetsDisplay", {title: "Movies (Watched)"})
+            navigation.navigate("AssetsDisplay", { title: "Movies (Watched)" })
           }} />
         </View>
       </View>
@@ -80,8 +191,8 @@ function RecentWatches() {
       <View style={styles.sectionHeader}>
         <Text style={styles.title}>TV Shows <Text style={{ fontWeight: "normal" }}>(Watched)</Text></Text>
         <View style={styles.button}>
-        <Button title="View All" color="#FF3D60" onPress={() => {
-            navigation.navigate("AssetsDisplay", {title: "TV Shows (Watched)"})
+          <Button title="View All" color="#FF3D60" onPress={() => {
+            navigation.navigate("AssetsDisplay", { title: "TV Shows (Watched)" })
           }} />
         </View>
       </View>
@@ -113,8 +224,8 @@ function WatchLater() {
       <View style={styles.sectionHeader}>
         <Text style={styles.title}>Movies</Text>
         <View style={styles.button}>
-        <Button title="View All" color="#FF3D60" onPress={() => {
-            navigation.navigate("AssetsDisplay", {title: "Movies"})
+          <Button title="View All" color="#FF3D60" onPress={() => {
+            navigation.navigate("AssetsDisplay", { title: "Movies" })
           }} />
         </View>
       </View>
@@ -149,8 +260,8 @@ function WatchLater() {
       <View style={styles.sectionHeader}>
         <Text style={styles.title}>TV Shows</Text>
         <View style={styles.button}>
-        <Button title="View All" color="#FF3D60" onPress={() => {
-            navigation.navigate("AssetsDisplay", {title: "TV Shows"})
+          <Button title="View All" color="#FF3D60" onPress={() => {
+            navigation.navigate("AssetsDisplay", { title: "TV Shows" })
           }} />
         </View>
       </View>
@@ -546,6 +657,82 @@ const styles = StyleSheet.create({
   },
   reviewPostText: {
     marginRight: 10
+  },
+  activity: {
+    display: "flex",
+    flexDirection: 'column',
+    paddingTop: 20,
+    borderBottomColor: "grey",
+    borderBottomWidth: 1,
+    paddingBottom: 20,
+    borderBottomStartRadius: 20,
+    borderBottomEndRadius: 20,
+    width: "100%",
+    flexWrap: "wrap"
+  },
+  activityHeaderInfo: {
+    display: "flex",
+    flexDirection: "column",
+    paddingLeft: 5,
+    width: "80%",
+  },
+  activityMovieGrid: {
+    alignSelf: "flex-start",
+    marginTop: 10,
+    marginLeft: 70,
+    marginRight: 20,
+    height: "auto",
+  },
+  activityPostInfo: {
+    display: "flex",
+    flexDirection: "row",
+    marginTop: 10,
+    marginLeft: 70,
+    alignItems: "center",
+    width: "70%",
+  },
+  activityReview: {
+    marginLeft: 70,
+    backgroundColor: "#F4F4F4",
+    borderRadius: 8,
+    height: "auto",
+    display: "flex",
+    flexDirection: "row",
+    width: "77%"
+  },
+  activityReviewBodyInfo: {
+    display: "flex",
+    flexDirection: "column",
+    marginLeft: 5,
+    marginTop: 15,
+  },
+  reviewItemContainer: {
+    width: 90,
+    height: 130,
+    marginTop: 10,
+    marginLeft: 10,
+    marginBottom: 10
+  },
+  activityReviewText: {
+    fontSize: 14,
+    width: "25%",
+  }, 
+  activityReviewPostInfo: {
+    display: "flex",
+    flexDirection: "row",
+    marginTop: 10,
+    alignItems: "center",
+    width: "70%",
+    height: 20
+  },
+  activityReviewPostIcon: {
+    height: 20,
+    width: 20,
+    top: 2,
+  },
+  activityReviewPostText: {
+    marginRight: 10,
+    fontSize: 12
   }
 });
 

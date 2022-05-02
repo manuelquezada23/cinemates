@@ -42,7 +42,7 @@ function HeaderRight() {
         <View style={{ display: "flex", flexDirection: "row"}}>
             <RBSheet
                 ref={refRBSheet}
-                height={"650"}
+                height={650}
                 closeOnDragDown={true}
                 closeOnPressMask={false}
                 customStyles={{

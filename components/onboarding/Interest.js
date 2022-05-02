@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { LogBox, StyleSheet, Text, View, Dimensions, TouchableHighlight, Image, Animated, PanResponder, Button } from 'react-native';
 import Swiper from 'react-native-deck-swiper'
 import Stars from 'react-native-stars';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const movies = [
@@ -94,7 +93,7 @@ export default class Interest extends Component {
                                     backgroundColor: 'white',
                                     borderColor: 'red',
                                     color: 'red',
-                                    borderWidth: 1
+                                    borderWidth: 1,
                                 },
                                 wrapper: {
                                     flexDirection: 'column',
