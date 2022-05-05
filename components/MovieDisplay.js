@@ -8,7 +8,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import ReadMore from '@fawazahmed/react-native-read-more';
 import Stars from 'react-native-stars';
 
-function MovieDisplay({ buttonColor, textColor, text, onPress, width }) {
+function MovieDisplay({ assetInfo }) {
 
     const asset = {
         id: "1",
@@ -56,7 +56,7 @@ function MovieDisplay({ buttonColor, textColor, text, onPress, width }) {
                         }
                     }}
                 >
-                    <MoreOptions />
+                    <MoreOptions sheet={refRBSheet} />
                 </RBSheet>
                 <View style={styles.movieHeader}>
                     <View style={styles.itemContainer}>

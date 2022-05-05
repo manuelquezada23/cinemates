@@ -100,7 +100,7 @@ function AssetsDisplay({ route, navigation }) {
                     }
                 }}
             >
-                <MoreOptions />
+                <MoreOptions sheet={refRBSheet} />
             </RBSheet>
 
             <FlatList

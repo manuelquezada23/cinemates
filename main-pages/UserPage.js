@@ -43,7 +43,8 @@ function ActivityPage() {
         <RBSheet
           ref={refRBSheet}
           closeOnDragDown={true}
-          closeOnPressMask={false}
+          closeOn
+          closeOnPressMask={true}
           customStyles={{
             wrapper: {
               backgroundColor: "transparent"
@@ -53,7 +54,7 @@ function ActivityPage() {
             }
           }}
         >
-          <MoreOptions />
+          <MoreOptions sheet={refRBSheet} />
         </RBSheet>
         {activities.map((ac) => (
           <TouchableOpacity style={styles.activity} key={ac.text}>
@@ -69,7 +70,7 @@ function ActivityPage() {
                 data={movies}
                 style={styles.activityMovieGrid}
                 renderItem={({ item }) => (
-                  <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
+                  <TouchableOpacity style={styles.itemContainer} onPress={() => { navigation.navigate("MovieDisplay") }}>
                     <Image style={styles.item} source={item.uri}></Image>
                     <Image style={styles.moreInfo} source={MoreInfo}></Image>
                   </TouchableOpacity>
@@ -80,7 +81,7 @@ function ActivityPage() {
 
             {(ac.type === "review") &&
               <TouchableOpacity style={styles.activityReview}>
-                <TouchableOpacity style={styles.reviewItemContainer} onPress={moreInfoOnMovie}>
+                <TouchableOpacity style={styles.reviewItemContainer} onPress={() => { navigation.navigate("MovieDisplay") }}>
                   <Image style={styles.item} source={ac.movie}></Image>
                   <Image style={styles.moreInfo} source={MoreInfo}></Image>
                 </TouchableOpacity>
@@ -176,7 +177,8 @@ function RecentWatches() {
       <RBSheet
         ref={refRBSheet}
         closeOnDragDown={true}
-        closeOnPressMask={false}
+        closeOn
+        closeOnPressMask={true}
         customStyles={{
           wrapper: {
             backgroundColor: "transparent"
@@ -186,7 +188,7 @@ function RecentWatches() {
           }
         }}
       >
-        <MoreOptions />
+        <MoreOptions sheet={refRBSheet} />
       </RBSheet>
       <View style={styles.sectionHeader}>
         <Text style={styles.title}>TV Shows <Text style={{ fontWeight: "normal" }}>(Watched)</Text></Text>
@@ -245,7 +247,8 @@ function WatchLater() {
       <RBSheet
         ref={refRBSheet}
         closeOnDragDown={true}
-        closeOnPressMask={false}
+        closeOn
+        closeOnPressMask={true}
         customStyles={{
           wrapper: {
             backgroundColor: "transparent"
@@ -255,7 +258,7 @@ function WatchLater() {
           }
         }}
       >
-        <MoreOptions />
+        <MoreOptions sheet={refRBSheet} />
       </RBSheet>
       <View style={styles.sectionHeader}>
         <Text style={styles.title}>TV Shows</Text>
@@ -293,7 +296,8 @@ function Reviews() {
       <RBSheet
         ref={refRBSheet}
         closeOnDragDown={true}
-        closeOnPressMask={false}
+        closeOn
+        closeOnPressMask={true}
         customStyles={{
           wrapper: {
             backgroundColor: "transparent"
@@ -303,7 +307,7 @@ function Reviews() {
           }
         }}
       >
-        <MoreOptions />
+        <MoreOptions sheet={refRBSheet} />
       </RBSheet>
 
       <ScrollView style={styles.subPage}>
@@ -396,7 +400,7 @@ function UserPage() {
       <View style={styles.sectionHeader}>
         <Text style={styles.title}>Favorite Movies/TV Shows</Text>
         <View style={styles.button}>
-          <Button title="View All" color="#FF3D60" onPress={() => navigation.navigate("MovieDisplay")}/>
+          <Button title="View All" color="#FF3D60" onPress={() => navigation.navigate("AssetsDisplay", { title: "Favorite Movies/TV Shows" })} />
         </View>
       </View>
 
@@ -404,7 +408,7 @@ function UserPage() {
         data={movies}
         style={styles.movieGrid}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
+          <TouchableOpacity style={styles.itemContainer} onPress={() => { navigation.navigate("MovieDisplay") }}>
             <Image style={styles.item} source={item.uri}></Image>
             <Image style={styles.moreInfo} source={MoreInfo}></Image>
           </TouchableOpacity>
@@ -415,7 +419,8 @@ function UserPage() {
       <RBSheet
         ref={refRBSheet}
         closeOnDragDown={true}
-        closeOnPressMask={false}
+        closeOn
+        closeOnPressMask={true}
         customStyles={{
           wrapper: {
             backgroundColor: "transparent"
@@ -425,7 +430,7 @@ function UserPage() {
           }
         }}
       >
-        <MoreOptions />
+        <MoreOptions sheet={refRBSheet} />
       </RBSheet>
 
       <View style={styles.buttonHeader}>
@@ -717,7 +722,7 @@ const styles = StyleSheet.create({
   activityReviewText: {
     fontSize: 14,
     width: "25%",
-  }, 
+  },
   activityReviewPostInfo: {
     display: "flex",
     flexDirection: "row",

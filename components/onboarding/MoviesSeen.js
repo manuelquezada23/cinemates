@@ -38,7 +38,7 @@ function MoviesSeen({ navigation }) {
                     }
                 }}
             >
-                <MoreOptions />
+                <MoreOptions sheet={refRBSheet} />
             </RBSheet>
 
             <Text style={styles.title}>Movies You Have Seen</Text>

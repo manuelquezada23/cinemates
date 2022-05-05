@@ -91,14 +91,14 @@ function NotificationsPage() {
         closeOnPressMask={false}
         customStyles={{
           wrapper: {
-            backgroundColor: "transparent"
+            backgroundColor: "transparent" 
           },
           draggableIcon: {
             backgroundColor: "#000"
           }
         }}
       >
-        <MoreOptions />
+        <MoreOptions sheet={refRBSheet}/>
       </RBSheet>
 
       <View style={styles.block}>

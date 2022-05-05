@@ -2,18 +2,23 @@ import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import SendToFriend from '../assets/send_to_friend.png'
 import WatchLater from '../assets/watch_later.png'
 import AddToRecent from '../assets/add_to_recent.png'
+import { useNavigation } from '@react-navigation/native';
 
-function MoreOptions() {
+function MoreOptions(props) {
+    const navigation = useNavigation();
+    const RBSheet = props.sheet.current
+
     function addToRecent() {
         console.log("add to recent")
     }
 
     function watchLater() {
-        console.log("watch later")
+        console.log("watch later") 
     }
 
     function sendToFriend() {
-        console.log("send to friend")
+        RBSheet.close()
+        navigation.navigate("SendToFriend")
     }
 
     return (

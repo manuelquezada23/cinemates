@@ -80,7 +80,7 @@ function SearchPage({ navigation }) {
           }
         }}
       >
-        <MoreOptions/>
+        <MoreOptions sheet={refRBSheet}/>
       </RBSheet>
 
       <View style={styles.sectionHeader}>
