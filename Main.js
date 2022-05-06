@@ -10,6 +10,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AssetsDisplay from './components/AssetsDisplay.js';
 import MovieDisplay from './components/MovieDisplay.js';
 import SendToFriend from './components/SendToFriend.js';
+import Reviews from './components/Reviews.js';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -53,6 +54,7 @@ function Main() {
         <Stack.Screen name="AssetsDisplay" component={AssetsDisplay} options={{headerTintColor: "black"}}/>
         <Stack.Screen name="MovieDisplay" component={MovieDisplay} options={{headerShown: false}}/>
         <Stack.Screen name="SendToFriend" component={SendToFriend} options={{headerShown: false}}/>
+        <Stack.Screen name="Reviews" component={Reviews} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

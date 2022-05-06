@@ -137,7 +137,9 @@ function MovieDisplay({ assetInfo }) {
                             </View>
                         </View>
                     ))}
-                    <Text style={styles.subTitleBottom}>View All Reviews</Text>
+                    <TouchableOpacity onPress={() => {navigation.navigate("Reviews")}}>
+                        <Text style={styles.subTitleBottom} >View All Reviews</Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </React.Fragment>
