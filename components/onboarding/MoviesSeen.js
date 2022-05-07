@@ -12,10 +12,13 @@ const movies = [
     { id: "4", uri: require('../../assets/4.jpg') },
     { id: "5", uri: require('../../assets/5.jpg') },
 ]
+
 const numColumns = 3;
 const size = (Dimensions.get('window').width / numColumns) - (Dimensions.get('window').width * 0.015);
 
-function MoviesSeen({ navigation }) {
+function MoviesSeen({ route, navigation }) {
+
+    // const movies = route.params
 
     const refRBSheet = useRef();
 

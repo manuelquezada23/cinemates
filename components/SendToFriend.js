@@ -6,6 +6,31 @@ import { Searchbar } from 'react-native-paper';
 import IconFiller from '../assets/icon-filler.png';
 import SendIcon from '../assets/send-icon.png'
 
+class RatingFlatListComponent extends React.Component {
+    state = {
+        status: false,
+    }
+    render() {
+        return (
+            <View style={styles.itemContainer}>
+                <TouchableOpacity style={styles.checkIcon} onPress={() => {
+                    const newStatus = !this.state.status;
+                    this.setState({
+                        status: newStatus,
+                    });
+                }}>
+                    <Ionicons name={this.state.status ? "checkbox" : "square-outline"} size={25}></Ionicons>
+                </TouchableOpacity>
+                <Image style={styles.contactPicture} source={IconFiller}></Image>
+                <View style={styles.contactInfo}>
+                    <Text style={styles.contactName}>{this.props.friend.name}</Text>
+                    <Text style={styles.subName}>2k Followers</Text>
+                </View>
+            </View>
+        );
+    }
+}
+
 function SendToFriend() {
     const navigation = useNavigation();
     const [searchQuery, setSearchQuery] = React.useState('');
@@ -48,20 +73,10 @@ function SendToFriend() {
                 data={contacts}
                 style={styles.mainView}
                 renderItem={({ item }) => (
-                    <View style={styles.itemContainer}>
-                        <View style={styles.checkIcon}>
-                            <Ionicons name="checkbox" size={25}></Ionicons>
-                        </View>
-                        <Image style={styles.contactPicture} source={IconFiller}></Image>
-                        <View style={styles.contactInfo}>
-                            <Text style={styles.contactName}>{item.name}</Text>
-                            <Text style={styles.subName}>2k Followers</Text>
-                        </View>
-                    </View>
+                    <RatingFlatListComponent friend={item} />
                 )}
                 keyExtractor={item => item.id}
-                numColumns={1}
-            />
+                numColumns={1} />
             <View style={styles.bottomBar}>
                 <TextInput
                     style={styles.input}

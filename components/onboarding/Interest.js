@@ -19,7 +19,8 @@ export default class Interest extends Component {
             cards: movies,
             swipedAllCards: false,
             swipeDirection: '',
-            cardIndex: 0
+            cardIndex: 0,
+            moviesSeen: []
         }
     }
 
@@ -48,13 +49,16 @@ export default class Interest extends Component {
 
     onSwiped = (type) => {
         console.log(`on swiped ${type}`)
+        if (type === "right") {
+            this.state.moviesSeen.push(movies[this.state.cardIndex])
+        }
     }
 
     onSwipedAllCards = () => {
         this.setState({
             swipedAllCards: true
         })
-        this.props.navigation.navigate('Movies Seen')
+        this.props.navigation.navigate('Movies Seen',{ movies: this.state.moviesSeen } )
     };
 
     swipeLeft = () => {

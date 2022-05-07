@@ -83,40 +83,44 @@ function NotificationsPage() {
   }
 
   return (
-    <ScrollView style={styles.mainView}>
-      <Text style={styles.headerTitle}> Notifications </Text>
-      <RBSheet
-        ref={refRBSheet}
-        closeOnDragDown={true}
-        closeOnPressMask={false}
-        customStyles={{
-          wrapper: {
-            backgroundColor: "transparent" 
-          },
-          draggableIcon: {
-            backgroundColor: "#000"
-          }
-        }}
-      >
-        <MoreOptions sheet={refRBSheet}/>
-      </RBSheet>
-
-      <View style={styles.block}>
-        <Text style={styles.blockTitle}>This Week</Text>
-        {renderNotifications(notificationsThisWeek)}
+    <React.Fragment>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}> Notifications </Text>
       </View>
+      <ScrollView style={styles.mainView}>
+        <RBSheet
+          ref={refRBSheet}
+          closeOnDragDown={true}
+          closeOnPressMask={false}
+          customStyles={{
+            wrapper: {
+              backgroundColor: "transparent"
+            },
+            draggableIcon: {
+              backgroundColor: "#000"
+            }
+          }}
+        >
+          <MoreOptions sheet={refRBSheet} />
+        </RBSheet>
 
-      <View style={styles.block}>
-        <Text style={styles.blockTitle}>This Month</Text>
-        {renderNotifications(notificationsThisMonth)}
-      </View>
+        <View style={styles.block}>
+          <Text style={styles.blockTitle}>This Week</Text>
+          {renderNotifications(notificationsThisWeek)}
+        </View>
 
-      <View style={styles.block}>
-        <Text style={styles.blockTitle}>Suggested For You</Text>
-        {renderNotifications(suggested)}
-      </View>
+        <View style={styles.block}>
+          <Text style={styles.blockTitle}>This Month</Text>
+          {renderNotifications(notificationsThisMonth)}
+        </View>
 
-    </ScrollView>
+        <View style={styles.block}>
+          <Text style={styles.blockTitle}>Suggested For You</Text>
+          {renderNotifications(suggested)}
+        </View>
+
+      </ScrollView>
+    </React.Fragment>
   );
 }
 
@@ -126,11 +130,17 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "white"
   },
+  header: {
+    height: 100,
+    backgroundColor: "white"
+  },
   headerTitle: {
     fontSize: 25,
     fontWeight: "bold",
-    marginTop: 70,
-    left: 20
+    backgroundColor: "white",
+    position: "absolute",
+    left: 20,
+    bottom: 10
   },
   block: {
     display: "flex",

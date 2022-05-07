@@ -5,6 +5,7 @@ import MoreInfo from '../assets/more-info.png'
 import IconFiller from '../assets/icon-filler.png'
 import RBSheet from "react-native-raw-bottom-sheet";
 import MoreOptions from "../components/MoreOptions"
+import MovieDisplay from '../components/MovieDisplay'
 
 const movies = [
   { id: "1", uri: require('../assets/1.jpg') },
@@ -51,7 +52,7 @@ function SearchPage({ navigation }) {
       <View style={styles.sectionHeader}>
         <Text style={styles.title}>Top Content</Text>
         <View style={styles.button}>
-          <Button title="View All" color="#FF3D60" />
+          <Button title="View All" color="#FF3D60" onPress={() => {navigation.navigate("AssetsDisplay", { title: "Top Content" })}}/>
         </View>
       </View>
 

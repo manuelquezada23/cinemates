@@ -44,7 +44,7 @@ function Reviews() {
             </View>
             <ScrollView style={{ backgroundColor: "white" }}>
                 {asset.reviews.map((r) => (
-                    <View style={styles.container}>
+                    <View style={styles.container} key={r.review}>
                         <View style={styles.review} key={r.name}>
                             <Image style={styles.reviewImage} source={r.image}></Image>
                             <View style={styles.reviewBody}>
