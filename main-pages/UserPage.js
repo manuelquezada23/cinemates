@@ -152,65 +152,94 @@ function RecentWatches() {
   }
 
   return (
-    <ScrollView style={styles.subPage}>
-      <View style={styles.sectionHeader}>
-        <Text style={styles.title}>Movies <Text style={{ fontWeight: "normal" }}>(Watched)</Text></Text>
-        <View style={styles.button}>
-          <Button title="View All" color="#FF3D60" onPress={() => {
-            navigation.navigate("AssetsDisplay", { title: "Movies (Watched)" })
-          }} />
+    <View style={{ maxHeight: 350 }}>
+      <ScrollView style={styles.subPage}>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.title}>👍 Movies <Text style={{ fontWeight: "normal", fontSize: 12 }}>(Watched)</Text></Text>
+          <View style={styles.button}>
+            <TouchableOpacity onPress={() => {
+              navigation.navigate("AssetsDisplay", { title: "Movies (Watched)" })
+            }}>
+              <Text style={{ color: "#FF3D60", fontSize: 16, marginRight: 5 }}>View All</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
 
-      <FlatList
-        data={movies}
-        style={styles.movieGrid}
-        renderItem={({ item }) => (
-          <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
-            <Image style={styles.item} source={item.uri}></Image>
-            <Image style={styles.moreInfo} source={MoreInfo}></Image>
-          </TouchableOpacity>
-        )}
-        keyExtractor={item => item.id}
-        horizontal={true} />
+        <FlatList
+          data={movies}
+          style={styles.movieGrid}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
+              <Image style={styles.item} source={item.uri}></Image>
+              <Image style={styles.moreInfo} source={MoreInfo}></Image>
+            </TouchableOpacity>
+          )}
+          keyExtractor={item => item.id}
+          horizontal={true} />
 
-      <RBSheet
-        ref={refRBSheet}
-        closeOnDragDown={true}
-        closeOn
-        closeOnPressMask={true}
-        customStyles={{
-          wrapper: {
-            backgroundColor: "transparent"
-          },
-          draggableIcon: {
-            backgroundColor: "#000"
-          }
-        }}
-      >
-        <MoreOptions sheet={refRBSheet} />
-      </RBSheet>
-      <View style={styles.sectionHeader}>
-        <Text style={styles.title}>TV Shows <Text style={{ fontWeight: "normal" }}>(Watched)</Text></Text>
-        <View style={styles.button}>
-          <Button title="View All" color="#FF3D60" onPress={() => {
-            navigation.navigate("AssetsDisplay", { title: "TV Shows (Watched)" })
-          }} />
+        <RBSheet
+          ref={refRBSheet}
+          closeOnDragDown={true}
+          closeOn
+          closeOnPressMask={true}
+          customStyles={{
+            wrapper: {
+              backgroundColor: "transparent"
+            },
+            draggableIcon: {
+              backgroundColor: "#000"
+            }
+          }}
+        >
+          <MoreOptions sheet={refRBSheet} />
+        </RBSheet>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.title}>👍 TV Shows <Text style={{ fontWeight: "normal", fontSize: 12 }}>(Watched)</Text></Text>
+          <View style={styles.button}>
+            <TouchableOpacity onPress={() => {
+              navigation.navigate("AssetsDisplay", { title: "TV Shows (Watched)" })
+            }}>
+              <Text style={{ color: "#FF3D60", fontSize: 16, marginRight: 5 }}>View All</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
 
-      <FlatList
-        data={movies}
-        style={styles.movieGrid}
-        renderItem={({ item }) => (
-          <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
-            <Image style={styles.item} source={item.uri}></Image>
-            <Image style={styles.moreInfo} source={MoreInfo}></Image>
-          </TouchableOpacity>
-        )}
-        keyExtractor={item => item.id}
-        horizontal={true} />
-    </ScrollView>
+        <FlatList
+          data={movies}
+          style={styles.movieGrid}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
+              <Image style={styles.item} source={item.uri}></Image>
+              <Image style={styles.moreInfo} source={MoreInfo}></Image>
+            </TouchableOpacity>
+          )}
+          keyExtractor={item => item.id}
+          horizontal={true} />
+
+        <View style={styles.sectionHeader}>
+          <Text style={styles.title}>👎 Movies + TV Shows <Text style={{ fontWeight: "normal", fontSize: 12 }}>(Watched)</Text></Text>
+          <View style={styles.button}>
+            <TouchableOpacity onPress={() => {
+              navigation.navigate("AssetsDisplay", { title: "TV Shows (Watched)" })
+            }}>
+              <Text style={{ color: "#FF3D60", fontSize: 16, marginRight: 5 }}>View All</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <FlatList
+          data={movies}
+          style={styles.movieGrid}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
+              <Image style={styles.item} source={item.uri}></Image>
+              <Image style={styles.moreInfo} source={MoreInfo}></Image>
+            </TouchableOpacity>
+          )}
+          keyExtractor={item => item.id}
+          horizontal={true} />
+      </ScrollView>
+    </View>
   );
 }
 
@@ -226,9 +255,11 @@ function WatchLater() {
       <View style={styles.sectionHeader}>
         <Text style={styles.title}>Movies</Text>
         <View style={styles.button}>
-          <Button title="View All" color="#FF3D60" onPress={() => {
+          <TouchableOpacity onPress={() => {
             navigation.navigate("AssetsDisplay", { title: "Movies" })
-          }} />
+          }}>
+            <Text style={{ color: "#FF3D60", fontSize: 16, marginRight: 5 }}>View All</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -263,9 +294,11 @@ function WatchLater() {
       <View style={styles.sectionHeader}>
         <Text style={styles.title}>TV Shows</Text>
         <View style={styles.button}>
-          <Button title="View All" color="#FF3D60" onPress={() => {
+          <TouchableOpacity onPress={() => {
             navigation.navigate("AssetsDisplay", { title: "TV Shows" })
-          }} />
+          }}>
+            <Text style={{ color: "#FF3D60", fontSize: 16, marginRight: 5 }}>View All</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -400,7 +433,11 @@ function UserPage() {
       <View style={styles.sectionHeader}>
         <Text style={styles.title}>Favorite Movies/TV Shows</Text>
         <View style={styles.button}>
-          <Button title="View All" color="#FF3D60" onPress={() => navigation.navigate("AssetsDisplay", { title: "Favorite Movies/TV Shows" })} />
+          <TouchableOpacity onPress={() => {
+            navigation.navigate("AssetsDisplay", { title: "Favorite Movies/TV Shows" })
+          }}>
+            <Text style={{ color: "#FF3D60", fontSize: 16, marginRight: 5 }}>View All</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -524,7 +561,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    fontSize: 18,
+    fontSize: 16,
     lineHeight: 50,
     fontWeight: "bold",
     left: 20,

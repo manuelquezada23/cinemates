@@ -2,17 +2,17 @@ import { View, Text, StyleSheet, ScrollView, Image, Button, TouchableOpacity } f
 import IconFiller from '../assets/icon-filler.png'
 import MoreInfo from '../assets/more-info.png'
 import MoreOptions from "../components/MoreOptions"
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import RBSheet from "react-native-raw-bottom-sheet";
 
-const notificationsThisWeek = [
+const thisWeek = [
   { type: "user", name: "Jane Cooper", time: "3d" },
   { type: "movie", name: "Leslie Alexander", time: "5d", movieImage: require('../assets/1.jpg') },
   { type: "user", name: "Robert Fox", time: "3d" },
   { type: "user", name: "Jacob Jones", time: "3d" },
 ]
 
-const notificationsThisMonth = [
+const thisMonth = [
   { type: "user", name: "Manuel Quezada", time: "3d" },
   { type: "user", name: "Elon Musk", time: "3d" },
   { type: "user", name: "Emma Amselem", time: "3d" },
@@ -31,6 +31,8 @@ const suggested = [
 
 
 function NotificationsPage() {
+
+  const [notifications, setNofications] = useState({notificationsThisWeek: thisWeek, notificationsThisMonth: thisMonth, suggested})
 
   const refRBSheet = useRef();
 
@@ -106,17 +108,17 @@ function NotificationsPage() {
 
         <View style={styles.block}>
           <Text style={styles.blockTitle}>This Week</Text>
-          {renderNotifications(notificationsThisWeek)}
+          {renderNotifications(notifications.notificationsThisWeek)}
         </View>
 
         <View style={styles.block}>
           <Text style={styles.blockTitle}>This Month</Text>
-          {renderNotifications(notificationsThisMonth)}
+          {renderNotifications(notifications.notificationsThisMonth)}
         </View>
 
         <View style={styles.block}>
           <Text style={styles.blockTitle}>Suggested For You</Text>
-          {renderNotifications(suggested)}
+          {renderNotifications(notifications.suggested)}
         </View>
 
       </ScrollView>

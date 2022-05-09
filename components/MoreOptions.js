@@ -10,10 +10,12 @@ function MoreOptions(props) {
 
     function addToRecent() {
         console.log("add to recent")
+        RBSheet.close()
     }
 
     function watchLater() {
         console.log("watch later") 
+        RBSheet.close()
     }
 
     function sendToFriend() {
