@@ -22,14 +22,14 @@ export default function App() {
         <Stack.Screen name="Interest Guide" component={InterestGuide} options={{ headerShown: false, gestureEnabled: false }} />
         <Stack.Screen name="Select Your Interest" component={Interest} options={{ headerShown: false, gestureEnabled: false }} />
         <Stack.Screen name="Movies Seen" component={MoviesSeen} options={{ headerShown: false, gestureEnabled: false }} />
-        <Stack.Screen name="Sync Contacts" component={SyncContacts}/>
-        <Stack.Screen name="Main" component={Main} options={{headerShown: false}}/>
+        <Stack.Screen name="Sync Contacts" component={SyncContacts} options={{ headerBackVisible: false }} />
+        <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-const theme = { 
+const theme = {
   colors: {
     background: 'white',
   },

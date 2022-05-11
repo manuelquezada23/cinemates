@@ -10,7 +10,7 @@ function SignUp({ navigation }) {
                 <TextInput style={styles.input} placeholder="Confirm Password"></TextInput>
                 <TextInput style={styles.input} placeholder="Username"></TextInput>
             </View>
-            <MainButton buttonColor="#FF3D60" textColor="white" text="Sign Up" onPress={() => navigation.navigate("Interest Guide")}/>
+            <MainButton buttonColor="#FF3D60" textColor="white" text="Sign Up" onPress={() => navigation.navigate("Sync Contacts")}/>
             <Text style={styles.textLogIn} onPress={() => navigation.navigate("Sign In Your Account")}>Already have an account? <Text style={styles.bold} onPress={() => navigation.navigate("Sign In Your Account")}>Sign In</Text></Text>
         </View>
     );

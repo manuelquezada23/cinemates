@@ -4,6 +4,8 @@ import MoreInfo from '../assets/more-info.png'
 import MoreOptions from "../components/MoreOptions"
 import React, { useRef, useState } from 'react'
 import RBSheet from "react-native-raw-bottom-sheet";
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { StatusBar } from 'react-native';
 
 const thisWeek = [
   { type: "user", name: "Jane Cooper", time: "3d" },
@@ -32,7 +34,7 @@ const suggested = [
 
 function NotificationsPage() {
 
-  const [notifications, setNofications] = useState({notificationsThisWeek: thisWeek, notificationsThisMonth: thisMonth, suggested})
+  const [notifications, setNofications] = useState({ notificationsThisWeek: thisWeek, notificationsThisMonth: thisMonth, suggested })
 
   const refRBSheet = useRef();
 
@@ -76,7 +78,10 @@ function NotificationsPage() {
               <Text style={styles.suggestedNotificationText}>{data.name}</Text>
               <Text style={styles.subText}>{data.info}</Text>
             </View>
-            <View style={styles.button}><Button title="Follow" color="white" onPress={followButton}></Button></View>
+            <TouchableOpacity style={styles.close}>
+              <Ionicons name="close-outline" size={35}></Ionicons>
+            </TouchableOpacity>
+            <View style={styles.smallButton}><Button title="Follow" color="white" onPress={followButton}></Button></View>
           </View>
         )
       }
@@ -86,6 +91,7 @@ function NotificationsPage() {
 
   return (
     <React.Fragment>
+      <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <Text style={styles.headerTitle}> Notifications </Text>
       </View>
@@ -180,10 +186,24 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 100,
+    height: 40,
     backgroundColor: "#FF3D60",
     borderRadius: 100,
     position: "absolute",
     right: 10,
+  },
+  smallButton: {
+    width: 80,
+    height: 40,
+    backgroundColor: "#FF3D60",
+    borderRadius: 100,
+    position: "absolute",
+    right: 50,
+  },
+  close: {
+    position: "absolute",
+    right: 10,
+    top: 2
   },
   movieNotificationText: {
     fontSize: 15,

@@ -1,11 +1,12 @@
 import { View, Text, StyleSheet, Image, FlatList, Button, Dimensions, TouchableOpacity } from 'react-native';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import { Searchbar } from 'react-native-paper';
 import MoreInfo from '../assets/more-info.png'
 import IconFiller from '../assets/icon-filler.png'
 import RBSheet from "react-native-raw-bottom-sheet";
 import MoreOptions from "../components/MoreOptions"
 import { Ionicons } from '@expo/vector-icons';
+import { StatusBar } from 'react-native';
 
 const size = (Dimensions.get('window').width / 3) - (Dimensions.get('window').width * 0.035);
 
@@ -18,26 +19,26 @@ const movies = [
 ]
 
 const assetsDisplay = [
-  { id: "1", uri: require('../assets/1.jpg'), type: "movie" },
-  { id: "2", uri: require('../assets/2.jpg'), type: "show" },
-  { id: "3", uri: require('../assets/3.jpg'), type: "movie" },
-  { id: "4", uri: require('../assets/4.jpg'), type: "show" },
-  { id: "5", uri: require('../assets/5.jpg'), type: "movie" },
-  { id: "6", uri: require('../assets/1.jpg'), type: "show" },
-  { id: "7", uri: require('../assets/2.jpg'), type: "movie" },
-  { id: "8", uri: require('../assets/3.jpg'), type: "show" },
-  { id: "9", uri: require('../assets/4.jpg'), type: "movie" },
-  { id: "10", uri: require('../assets/5.jpg'), type: "show" },
-  { id: "11", uri: require('../assets/1.jpg'), type: "movie" },
-  { id: "12", uri: require('../assets/2.jpg'), type: "show" },
-  { id: "13", uri: require('../assets/3.jpg'), type: "movie" },
-  { id: "14", uri: require('../assets/4.jpg'), type: "show" },
-  { id: "15", uri: require('../assets/5.jpg'), type: "movie" },
-  { id: "16", uri: require('../assets/1.jpg'), type: "show" },
-  { id: "17", uri: require('../assets/2.jpg'), type: "movie" },
-  { id: "18", uri: require('../assets/3.jpg'), type: "show" },
-  { id: "19", uri: require('../assets/4.jpg'), type: "movie" },
-  { id: "20", uri: require('../assets/5.jpg'), type: "show" },
+  { id: "1", uri: require('../assets/1.jpg'), type: "movie", title: "Joker" },
+  { id: "2", uri: require('../assets/2.jpg'), type: "show", title: "Star Wars" },
+  { id: "3", uri: require('../assets/3.jpg'), type: "movie", title: "Uncharted" },
+  { id: "4", uri: require('../assets/4.jpg'), type: "show", title: "Encanto" },
+  { id: "5", uri: require('../assets/5.jpg'), type: "movie", title: "Star Wars" },
+  { id: "6", uri: require('../assets/1.jpg'), type: "show", title: "Joker" },
+  { id: "7", uri: require('../assets/2.jpg'), type: "movie", title: "Star Wars" },
+  { id: "8", uri: require('../assets/3.jpg'), type: "show", title: "Uncharted" },
+  { id: "9", uri: require('../assets/4.jpg'), type: "movie", title: "Encanto" },
+  { id: "10", uri: require('../assets/5.jpg'), type: "show", title: "Star Wars" },
+  { id: "11", uri: require('../assets/1.jpg'), type: "movie", title: "Joker" },
+  { id: "12", uri: require('../assets/2.jpg'), type: "show", title: "Star Wars" },
+  { id: "13", uri: require('../assets/3.jpg'), type: "movie", title: "Uncharted" },
+  { id: "14", uri: require('../assets/4.jpg'), type: "show", title: "Encanto" },
+  { id: "15", uri: require('../assets/5.jpg'), type: "movie", title: "Star Wars" },
+  { id: "16", uri: require('../assets/1.jpg'), type: "show", title: "Joker" },
+  { id: "17", uri: require('../assets/2.jpg'), type: "movie", title: "Star Wars" },
+  { id: "18", uri: require('../assets/3.jpg'), type: "show", title: "Uncharted" },
+  { id: "19", uri: require('../assets/4.jpg'), type: "movie", title: "Encanto" },
+  { id: "20", uri: require('../assets/5.jpg'), type: "show", title: "Star Wars" },
 ]
 
 const contactsDisplay = [
@@ -74,19 +75,26 @@ function SearchPage({ navigation }) {
   const [tvShowsFilter, setTVShowsFilter] = useState(false)
 
   const [assets, setAssets] = useState(assetsDisplay)
+  const [usersArray, setUsersArray] = useState(contactsDisplay)
 
   const onChangeSearch = (query) => {
     if (query.length === 0) {
       setSearchBarPressed(false)
       setSearchQuery('')
+      setAssets(assetsDisplay)
+      setUsersArray(contactsDisplay)
+      setMovieFilter(false)
+      setTVShowsFilter(false)
     } else {
       setSearchBarPressed(true)
       setSearchQuery(query)
     }
 
-    let filteredAssets = assetsDisplay.slice();
     //filter content
     if (content) {
+      let filteredAssets = assetsDisplay.slice();
+      filteredAssets = filteredAssets.filter(f => (f.title.toLowerCase().includes(searchQuery.toLowerCase())))
+
       //movie filter
       if (movieFilter && !tvShowsFilter) {
         filteredAssets = filteredAssets.filter(f => (f.type === "movie"))
@@ -95,17 +103,21 @@ function SearchPage({ navigation }) {
       else if (tvShowsFilter && !movieFilter) {
         filteredAssets = filteredAssets.filter(f => (f.type === "show"))
       }
-      //search both
-      else {
-
-      }
+      setAssets(filteredAssets)
+    } else if (users) {
+      let filteredUsers = contactsDisplay.slice();
+      filteredUsers = filteredUsers.filter(f => (f.name.toLowerCase().includes(searchQuery.toLowerCase())))
+      setUsersArray(filteredUsers)
     }
-    setAssets(filteredAssets)
   }
 
   const clearSearch = () => {
     setSearchBarPressed(false)
     setSearchQuery('')
+    setAssets(assetsDisplay)
+    setUsersArray(contactsDisplay)
+    setMovieFilter(false)
+    setTVShowsFilter(false)
   }
 
   const refRBSheet = useRef();
@@ -127,19 +139,31 @@ function SearchPage({ navigation }) {
     }
 
     function setFilter(filter) {
+      let filteredAssets = assetsDisplay.slice();
+      filteredAssets = filteredAssets.filter(f => (f.title.toLowerCase().includes(searchQuery.toLowerCase())))
       if (filter === "movie") {
         if (movieFilter) {
           setMovieFilter(false)
+          filteredAssets = assetsDisplay.slice();
+          filteredAssets = filteredAssets.filter(f => (f.title.toLowerCase().includes(searchQuery.toLowerCase())))
+          setAssets(filteredAssets)
         } else {
           setMovieFilter(true)
           setTVShowsFilter(false)
+          filteredAssets = filteredAssets.filter(f => (f.type === "movie"))
+          setAssets(filteredAssets)
         }
       } else {
         if (tvShowsFilter) {
           setTVShowsFilter(false)
+          filteredAssets = assetsDisplay.slice();
+          filteredAssets = filteredAssets.filter(f => (f.title.toLowerCase().includes(searchQuery.toLowerCase())))
+          setAssets(filteredAssets)
         } else {
           setTVShowsFilter(true)
           setMovieFilter(false)
+          filteredAssets = filteredAssets.filter(f => (f.type === "show"))
+          setAssets(filteredAssets)
         }
       }
     }
@@ -171,7 +195,7 @@ function SearchPage({ navigation }) {
               showsVerticalScrollIndicator={false}
               renderItem={({ item }) => (
                 <TouchableOpacity style={styles.movieDisplayItemContainer}>
-                  <Image style={styles.movieDisplayItem} source={item.uri}></Image>
+                  <Image style={styles.movieDisplayItem} source={item.uri} defaultSource={item.uri}></Image>
                   <Image style={styles.movieDisplayMoreInfo} source={MoreInfo}></Image>
                 </TouchableOpacity>
               )}
@@ -183,7 +207,7 @@ function SearchPage({ navigation }) {
         {users &&
           <View style={styles.contentSearchView}>
             <FlatList
-              data={contactsDisplay}
+              data={usersArray}
               style={styles.searchViewUsers}
               showsVerticalScrollIndicator={false}
               renderItem={({ item }) => (
@@ -204,6 +228,7 @@ function SearchPage({ navigation }) {
 
   return (
     <View style={styles.mainView}>
+      <StatusBar barStyle="dark-content" />
       <View style={styles.topHeader}>
         <Searchbar
           placeholder="Search"

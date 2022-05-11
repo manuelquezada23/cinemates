@@ -6,6 +6,7 @@ import MoreOptions from "../components/MoreOptions"
 import MoreInfo from '../assets/more-info.png'
 import Stars from 'react-native-stars';
 import { useNavigation } from '@react-navigation/native';
+import { StatusBar } from 'react-native';
 
 const currentUser = [
   { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), bio: "Radio jockey, music lover", followers: "12k", following: "850" },
@@ -418,6 +419,7 @@ function UserPage() {
 
   return (
     <View style={styles.mainView}>
+      <StatusBar barStyle="dark-content" />
       <View style={styles.userHeader}>
         <Image source={currentUser[0].picture} style={styles.userPicture}></Image>
         <View style={styles.userInfo}>
