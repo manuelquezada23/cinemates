@@ -42,19 +42,38 @@ function NotificationsPage() {
     refRBSheet.current.open()
   }
 
-  function followButton() {
-    console.log("follow")
+  function FollowButtonComponent(props) {
+    const [following, setFollowing] = useState(false)
+
+    function followUser() {
+      const newStatus = !following
+      setFollowing(newStatus)
+    }
+
+    if (props.type === "small") {
+      return (
+        <TouchableOpacity style={following ? styles.followingSmallButton : styles.smallButton} onPress={followUser}>
+          <Text style={following ? styles.smallButtonText : styles.smallFollowingButtonText}>{following ? "Following" : "Follow"}</Text>
+        </TouchableOpacity>
+      )
+    }
+
+    return (
+      <TouchableOpacity style={following ? styles.followingButton : styles.button} onPress={followUser}>
+        <Text style={following ? styles.smallButtonText : styles.smallFollowingButtonText}>{following ? "Following" : "Follow"}</Text>
+      </TouchableOpacity>
+    )
   }
 
-
   function renderNotifications(array) {
+
     return array.map((data) => {
       if (data.type === "user") {
         return (
           <View style={styles.notification} key={data.name}>
             <Image style={styles.image} source={IconFiller}></Image>
             <Text style={styles.userNotificationText}><Text style={{ fontWeight: "bold" }}>{data.name}</Text> started following you. <Text style={{ color: "#777777" }}>{data.time}</Text> </Text>
-            <View style={styles.button}><Button title="Follow" color="white" onPress={followButton}></Button></View>
+            <FollowButtonComponent />
           </View>
         )
       } else if (data.type === "movie") {
@@ -65,7 +84,6 @@ function NotificationsPage() {
               <Text style={styles.movieNotificationText}><Text style={{ fontWeight: "bold" }}>{data.name}</Text> sent you a movie. <Text style={{ color: "#777777" }}>{data.time}</Text></Text>
               <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
                 <Image style={styles.item} source={data.movieImage}></Image>
-                <Image style={styles.moreInfo} source={MoreInfo}></Image>
               </TouchableOpacity>
             </View>
           </View>
@@ -79,9 +97,9 @@ function NotificationsPage() {
               <Text style={styles.subText}>{data.info}</Text>
             </View>
             <TouchableOpacity style={styles.close}>
-              <Ionicons name="close-outline" size={35}></Ionicons>
+              <Ionicons name="close-outline" size={30}></Ionicons>
             </TouchableOpacity>
-            <View style={styles.smallButton}><Button title="Follow" color="white" onPress={followButton}></Button></View>
+            <FollowButtonComponent type="small" />
           </View>
         )
       }
@@ -126,6 +144,11 @@ function NotificationsPage() {
           <Text style={styles.blockTitle}>Suggested For You</Text>
           {renderNotifications(notifications.suggested)}
         </View>
+
+        <TouchableOpacity style={styles.seeMoreSuggestions}>
+          <Text style={styles.seeMoreSuggestionsText}>See more suggestions</Text>
+          <View style={styles.seeMoreSuggestionsIcon}><Ionicons name="chevron-forward-outline" size={30} /></View>
+        </TouchableOpacity>
 
       </ScrollView>
     </React.Fragment>
@@ -186,24 +209,65 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 100,
-    height: 40,
+    height: 35,
     backgroundColor: "#FF3D60",
     borderRadius: 100,
     position: "absolute",
     right: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    top: 7
+  },
+  followingButton: {
+    width: 100,
+    height: 35,
+    backgroundColor: "white",
+    borderRadius: 100,
+    position: "absolute",
+    right: 10,
+    borderColor: "#FF3D60",
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    top: 7
   },
   smallButton: {
     width: 80,
-    height: 40,
+    height: 35,
     backgroundColor: "#FF3D60",
     borderRadius: 100,
     position: "absolute",
     right: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    top: 5
+  },
+  followingSmallButton: {
+    width: 80,
+    height: 35,
+    backgroundColor: "white",
+    borderRadius: 100,
+    position: "absolute",
+    right: 50,
+    color: "#FF3D60",
+    borderColor: "#FF3D60",
+    borderWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    top: 5
+  },
+  smallButtonText: {
+    color: "#FF3D60",
+    fontWeight: "bold"
+  },
+  smallFollowingButtonText: {
+    color: "white",
+    fontWeight: "bold"
   },
   close: {
     position: "absolute",
     right: 10,
-    top: 2
+    top: 6
   },
   movieNotificationText: {
     fontSize: 15,
@@ -227,7 +291,8 @@ const styles = StyleSheet.create({
     width: 90,
     height: 130,
     left: 30,
-    top: 15
+    top: 15,
+    marginBottom: 10
   },
   item: {
     flex: 1,
@@ -243,6 +308,20 @@ const styles = StyleSheet.create({
     top: 5,
     right: 5
   },
+  seeMoreSuggestions: {
+    height: 60,
+    justifyContent: "center"
+  },
+  seeMoreSuggestionsText: {
+    color: "#FF3D60",
+    fontWeight: "bold",
+    fontSize: 16,
+    marginLeft: 30
+  },
+  seeMoreSuggestionsIcon: {
+    position: "absolute",
+    right: 10
+  }
 });
 
 export default NotificationsPage;

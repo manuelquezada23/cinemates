@@ -196,7 +196,6 @@ function SearchPage({ navigation }) {
               renderItem={({ item }) => (
                 <TouchableOpacity style={styles.movieDisplayItemContainer}>
                   <Image style={styles.movieDisplayItem} source={item.uri} defaultSource={item.uri}></Image>
-                  <Image style={styles.movieDisplayMoreInfo} source={MoreInfo}></Image>
                 </TouchableOpacity>
               )}
               keyExtractor={item => item.id}
@@ -247,18 +246,15 @@ function SearchPage({ navigation }) {
         <React.Fragment>
           <View style={styles.sectionHeader}>
             <Text style={styles.title}>Top Content</Text>
-            <View style={styles.button}>
-              <Button title="View All" color="#FF3D60" onPress={() => { navigation.navigate("AssetsDisplay", { title: "Top Content" }) }} />
-            </View>
           </View>
 
           <FlatList
             data={movies}
             style={styles.movieGrid}
+            showsHorizontalScrollIndicator={false}
             renderItem={({ item }) => (
               <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
                 <Image style={styles.item} source={item.uri}></Image>
-                <Image style={styles.moreInfo} source={MoreInfo}></Image>
               </TouchableOpacity>
             )}
             keyExtractor={item => item.id}
@@ -282,9 +278,6 @@ function SearchPage({ navigation }) {
 
           <View style={styles.sectionHeader}>
             <Text style={styles.title}>Top Users</Text>
-            <View style={styles.button}>
-              <Button title="View All" color="#FF3D60" />
-            </View>
           </View>
 
           <FlatList
@@ -353,20 +346,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     left: 20
   },
-  button: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    right: 15,
-    fontSize: 12
-  },
   movieGrid: {
     width: "auto",
     maxHeight: 130,
     flexGrow: 1,
     marginLeft: 20,
-    marginRight: 20,
     height: "auto",
   },
   itemContainer: {
@@ -381,11 +365,6 @@ const styles = StyleSheet.create({
     height: null,
     resizeMode: 'stretch',
     borderRadius: 8,
-  },
-  moreInfo: {
-    position: "absolute",
-    top: 5,
-    right: 5
   },
   userGrid: {
     flexGrow: 1,

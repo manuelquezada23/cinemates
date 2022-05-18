@@ -3,10 +3,10 @@ import { Ionicons } from '@expo/vector-icons';
 import React, { useRef, useState, useEffect } from 'react'
 import RBSheet from "react-native-raw-bottom-sheet";
 import MoreOptions from "../components/MoreOptions"
-import MoreInfo from '../assets/more-info.png'
 import Stars from 'react-native-stars';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
+import ReadMore from '@fawazahmed/react-native-read-more';
 
 const currentUser = [
   { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), bio: "Radio jockey, music lover", followers: "12k", following: "850" },
@@ -21,15 +21,16 @@ const movies = [
 ]
 
 const reviews = [
-  { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), date: "10 Mar 2021", movie: require('../assets/1.jpg'), movieTitle: "Dead To Me", rating: 4, text: "The acting in this masterpiece of a show is astronomical. Like I'm WAY too invested in this show", numberOfReviews: 14, numberOfLikes: 324, liked: false },
-  { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), date: "10 Mar 2021", movie: require('../assets/2.jpg'), movieTitle: "The Good Place", rating: 4, text: "This is one of the best Sitcom shows that I have ever watched. If I didn't had any other stuffs to do", numberOfReviews: 14, numberOfLikes: 325, liked: true },
-  { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), date: "10 Mar 2021", movie: require('../assets/3.jpg'), movieTitle: "When We First Met", rating: 4, text: "Picture this you're bored scrolling through Netflix and  you find when we first me you got nothing", numberOfReviews: 14, numberOfLikes: 324, liked: false },
+  { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), date: "10 Mar 2021", movie: require('../assets/1.jpg'), movieTitle: "Dead To Me", rating: 4, text: "The acting in this masterpiece of a show is astronomical. Like I'm WAY too invested in this show it is so good I am so excited for the next one", numberOfReviews: 14, numberOfLikes: 324, liked: false },
+  { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), date: "10 Mar 2021", movie: require('../assets/2.jpg'), movieTitle: "The Good Place", rating: 4, text: "This is one of the best Sitcom shows that I have ever watched. If I didn't had any other stuffs to do filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler filler  ", numberOfReviews: 14, numberOfLikes: 325, liked: true },
+  { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), date: "10 Mar 2021", movie: require('../assets/3.jpg'), movieTitle: "When We First Met", rating: 4, text: "Picture this you're bored scrolling through Netflix and  you find when we first me you got nothing filler filler filler filler filler filler filler ", numberOfReviews: 14, numberOfLikes: 324, liked: false },
 ]
 
 const activities = [
-  { type: "recently watched", name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), text: "recently watched Mamma Mia and 12 other movies.", date: "5d", comments: 14, likes: 324, liked: false, movie: null },
-  { type: "review", name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), text: "reviewed Dead To Me.", date: "5d", comments: 32, likes: 143, liked: true, movie: require('../assets/1.jpg'), rating: 4, movieText: "The acting in this masterpiece of a show is astronomical. Like I’m WAY too invested in this show... Read More", numberOfReviews: 14, numberOfLikes: 324, reviewLiked: false },
-  { type: "watch later", name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), text: "added Hannah Montana and 3 other movies in her watch later.", date: "5d", comments: 14, likes: 324, liked: false, movie: null }
+  { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), text: "recently enjoyed watching Mamma Mia and 12 other movies.", date: "5d", comments: 14, likes: 324, liked: false, movie: null },
+  { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), text: "recently disliked watching Disaster Movie.", date: "5d", comments: 14, likes: 324, liked: false, movie: null },
+  { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), text: "reviewed Dead To Me.", date: "5d", comments: 32, likes: 143, liked: true, movie: require('../assets/1.jpg'), rating: 4, movieText: "The acting in this masterpiece of a show is astronomical. Like I’m WAY too invested in this show... Read More", numberOfReviews: 14, numberOfLikes: 324, reviewLiked: false },
+  { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), text: "added Hannah Montana and 3 other movies in her watch later.", date: "5d", comments: 14, likes: 324, liked: false, movie: null }
 ]
 
 function ActivityPage() {
@@ -62,29 +63,36 @@ function ActivityPage() {
             <View style={styles.reviewHeader}>
               <Image source={ac.picture} style={styles.reviewPicture}></Image>
               <View style={styles.activityHeaderInfo}>
-                <Text style={styles.reviewName}>{ac.name} <Text style={{ fontWeight: "normal" }}>{ac.text}</Text> <Text style={{ color: "gray", fontWeight: "normal", fontSize: 14 }}>{ac.date}</Text></Text>
+                {(ac.text.includes("recently enjoyed watching")) &&
+                  <Text style={styles.reviewName}>{ac.name} <Text style={{ fontWeight: "normal" }}>{ac.text} </Text> <Ionicons name="thumbs-up-outline" size={20} color={"#FF3D60"} /><Text style={{ color: "gray", fontWeight: "normal", fontSize: 14 }}> {ac.date}</Text></Text>
+                }
+                {(ac.text.includes("recently disliked watching")) &&
+                  <Text style={styles.reviewName}>{ac.name} <Text style={{ fontWeight: "normal" }}>{ac.text} </Text> <Ionicons name="thumbs-down-outline" size={20} color={"#FF3D60"} /><Text style={{ color: "gray", fontWeight: "normal", fontSize: 14 }}> {ac.date}</Text></Text>
+                }
+                {((ac.text.includes("watch later")) || (ac.text.includes("reviewed"))) &&
+                  <Text style={styles.reviewName}>{ac.name} <Text style={{ fontWeight: "normal" }}>{ac.text}</Text> <Text style={{ color: "gray", fontWeight: "normal", fontSize: 14 }}>{ac.date}</Text></Text>
+                }
               </View>
             </View>
 
-            {((ac.type === "recently watched") || (ac.type === "watch later")) &&
+            {((ac.text.includes("recently enjoyed watching")) || (ac.text.includes("recently disliked watching")) || (ac.text.includes("watch later"))) &&
               <FlatList
                 data={movies}
                 style={styles.activityMovieGrid}
+                showsHorizontalScrollIndicator={false}
                 renderItem={({ item }) => (
-                  <TouchableOpacity style={styles.itemContainer} onPress={() => { navigation.navigate("MovieDisplay") }}>
+                  <TouchableOpacity style={styles.activityItemContainer} onPress={() => { navigation.navigate("MovieDisplay") }}>
                     <Image style={styles.item} source={item.uri}></Image>
-                    <Image style={styles.moreInfo} source={MoreInfo}></Image>
                   </TouchableOpacity>
                 )}
                 keyExtractor={item => item.id}
                 horizontal={true} />
             }
 
-            {(ac.type === "review") &&
+            {(ac.text.includes("reviewed")) &&
               <TouchableOpacity style={styles.activityReview}>
                 <TouchableOpacity style={styles.reviewItemContainer} onPress={() => { navigation.navigate("MovieDisplay") }}>
                   <Image style={styles.item} source={ac.movie}></Image>
-                  <Image style={styles.moreInfo} source={MoreInfo}></Image>
                 </TouchableOpacity>
                 <View style={styles.activityReviewBodyInfo}>
                   <View style={styles.reviewRating}>
@@ -156,7 +164,7 @@ function RecentWatches() {
     <View style={{ maxHeight: 350 }}>
       <ScrollView style={styles.subPage}>
         <View style={styles.sectionHeader}>
-          <Text style={styles.title}>👍 Movies <Text style={{ fontWeight: "normal", fontSize: 12 }}>(Watched)</Text></Text>
+          <Text style={styles.title}><Ionicons name="thumbs-up-outline" size={20} color={"#FF3D60"} />  Movies <Text style={{ fontWeight: "normal", fontSize: 12 }}>(Watched)</Text></Text>
           <View style={styles.button}>
             <TouchableOpacity onPress={() => {
               navigation.navigate("AssetsDisplay", { title: "Movies (Watched)" })
@@ -168,11 +176,11 @@ function RecentWatches() {
 
         <FlatList
           data={movies}
-          style={styles.movieGrid}
+          style={styles.movieGridBig}
+          showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
+            <TouchableOpacity style={styles.activityItemContainer} onPress={moreInfoOnMovie}>
               <Image style={styles.item} source={item.uri}></Image>
-              <Image style={styles.moreInfo} source={MoreInfo}></Image>
             </TouchableOpacity>
           )}
           keyExtractor={item => item.id}
@@ -195,7 +203,7 @@ function RecentWatches() {
           <MoreOptions sheet={refRBSheet} />
         </RBSheet>
         <View style={styles.sectionHeader}>
-          <Text style={styles.title}>👍 TV Shows <Text style={{ fontWeight: "normal", fontSize: 12 }}>(Watched)</Text></Text>
+          <Text style={styles.title}><Ionicons name="thumbs-up-outline" size={20} color={"#FF3D60"} />  TV Shows <Text style={{ fontWeight: "normal", fontSize: 12 }}>(Watched)</Text></Text>
           <View style={styles.button}>
             <TouchableOpacity onPress={() => {
               navigation.navigate("AssetsDisplay", { title: "TV Shows (Watched)" })
@@ -207,18 +215,19 @@ function RecentWatches() {
 
         <FlatList
           data={movies}
-          style={styles.movieGrid}
+          style={styles.movieGridBig}
+          showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
+            <TouchableOpacity style={styles.activityItemContainer} onPress={moreInfoOnMovie}>
               <Image style={styles.item} source={item.uri}></Image>
-              <Image style={styles.moreInfo} source={MoreInfo}></Image>
+
             </TouchableOpacity>
           )}
           keyExtractor={item => item.id}
           horizontal={true} />
 
         <View style={styles.sectionHeader}>
-          <Text style={styles.title}>👎 Movies + TV Shows <Text style={{ fontWeight: "normal", fontSize: 12 }}>(Watched)</Text></Text>
+          <Text style={styles.title}><Ionicons name="thumbs-down-outline" size={20} color={"#FF3D60"} />  Movies + TV Shows <Text style={{ fontWeight: "normal", fontSize: 12 }}>(Watched)</Text></Text>
           <View style={styles.button}>
             <TouchableOpacity onPress={() => {
               navigation.navigate("AssetsDisplay", { title: "TV Shows (Watched)" })
@@ -230,11 +239,12 @@ function RecentWatches() {
 
         <FlatList
           data={movies}
-          style={styles.movieGrid}
+          style={styles.movieGridBig}
+          showsHorizontalScrollIndicator={false}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
+            <TouchableOpacity style={styles.activityItemContainer} onPress={moreInfoOnMovie}>
               <Image style={styles.item} source={item.uri}></Image>
-              <Image style={styles.moreInfo} source={MoreInfo}></Image>
+
             </TouchableOpacity>
           )}
           keyExtractor={item => item.id}
@@ -252,69 +262,73 @@ function WatchLater() {
   }
 
   return (
-    <ScrollView style={styles.subPage}>
-      <View style={styles.sectionHeader}>
-        <Text style={styles.title}>Movies</Text>
-        <View style={styles.button}>
-          <TouchableOpacity onPress={() => {
-            navigation.navigate("AssetsDisplay", { title: "Movies" })
-          }}>
-            <Text style={{ color: "#FF3D60", fontSize: 16, marginRight: 5 }}>View All</Text>
-          </TouchableOpacity>
+    <View style={{ maxHeight: 350 }}>
+      <ScrollView style={styles.subPage} >
+        <View style={styles.sectionHeader}>
+          <Text style={styles.title}>Movies</Text>
+          <View style={styles.button}>
+            <TouchableOpacity onPress={() => {
+              navigation.navigate("AssetsDisplay", { title: "Movies" })
+            }}>
+              <Text style={{ color: "#FF3D60", fontSize: 16, marginRight: 5 }}>View All</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
 
-      <FlatList
-        data={movies}
-        style={styles.movieGrid}
-        renderItem={({ item }) => (
-          <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
-            <Image style={styles.item} source={item.uri}></Image>
-            <Image style={styles.moreInfo} source={MoreInfo}></Image>
-          </TouchableOpacity>
-        )}
-        keyExtractor={item => item.id}
-        horizontal={true} />
+        <FlatList
+          data={movies}
+          style={styles.movieGridBig}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={styles.activityItemContainer} onPress={moreInfoOnMovie}>
+              <Image style={styles.item} source={item.uri}></Image>
 
-      <RBSheet
-        ref={refRBSheet}
-        closeOnDragDown={true}
-        closeOn
-        closeOnPressMask={true}
-        customStyles={{
-          wrapper: {
-            backgroundColor: "transparent"
-          },
-          draggableIcon: {
-            backgroundColor: "#000"
-          }
-        }}
-      >
-        <MoreOptions sheet={refRBSheet} />
-      </RBSheet>
-      <View style={styles.sectionHeader}>
-        <Text style={styles.title}>TV Shows</Text>
-        <View style={styles.button}>
-          <TouchableOpacity onPress={() => {
-            navigation.navigate("AssetsDisplay", { title: "TV Shows" })
-          }}>
-            <Text style={{ color: "#FF3D60", fontSize: 16, marginRight: 5 }}>View All</Text>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          )}
+          keyExtractor={item => item.id}
+          horizontal={true} />
+
+        <RBSheet
+          ref={refRBSheet}
+          closeOnDragDown={true}
+          closeOn
+          closeOnPressMask={true}
+          customStyles={{
+            wrapper: {
+              backgroundColor: "transparent"
+            },
+            draggableIcon: {
+              backgroundColor: "#000"
+            }
+          }}
+        >
+          <MoreOptions sheet={refRBSheet} />
+        </RBSheet>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.title}>TV Shows</Text>
+          <View style={styles.button}>
+            <TouchableOpacity onPress={() => {
+              navigation.navigate("AssetsDisplay", { title: "TV Shows" })
+            }}>
+              <Text style={{ color: "#FF3D60", fontSize: 16, marginRight: 5 }}>View All</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
 
-      <FlatList
-        data={movies}
-        style={styles.movieGrid}
-        renderItem={({ item }) => (
-          <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
-            <Image style={styles.item} source={item.uri}></Image>
-            <Image style={styles.moreInfo} source={MoreInfo}></Image>
-          </TouchableOpacity>
-        )}
-        keyExtractor={item => item.id}
-        horizontal={true} />
-    </ScrollView>
+        <FlatList
+          data={movies}
+          style={styles.movieGridBig}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={styles.activityItemContainer} onPress={moreInfoOnMovie}>
+              <Image style={styles.item} source={item.uri}></Image>
+
+            </TouchableOpacity>
+          )}
+          keyExtractor={item => item.id}
+          horizontal={true} />
+      </ScrollView>
+    </View>
   );
 }
 
@@ -359,7 +373,7 @@ function Reviews() {
             <View style={styles.reviewBody}>
               <TouchableOpacity style={styles.reviewMovieContainer} onPress={moreInfoOnMovie}>
                 <Image style={styles.reviewMovieItem} source={review.movie}></Image>
-                <Image style={styles.moreInfo} source={MoreInfo}></Image>
+
               </TouchableOpacity>
 
               <View style={styles.reviewBodyInfo}>
@@ -375,7 +389,11 @@ function Reviews() {
                     halfStar={<Ionicons name="star-half-outline"></Ionicons>} />
                 </View>
                 <Text style={styles.reviewMovieTitle}>{review.movieTitle}</Text>
-                <Text style={styles.reviewText} numberOfLines={3}>{review.text}</Text>
+                <ReadMore numberOfLines={3} style={styles.reviewText}
+                  seeMoreText="Read More"
+                  seeMoreStyle={{ color: "black", fontWeight: "bold" }}
+                  seeLessText="Read Less"
+                  seeLessStyle={{ color: "black", fontWeight: "bold" }}>{review.text}</ReadMore>
               </View>
 
             </View>
@@ -446,10 +464,10 @@ function UserPage() {
       <FlatList
         data={movies}
         style={styles.movieGrid}
+        showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.itemContainer} onPress={() => { navigation.navigate("MovieDisplay") }}>
             <Image style={styles.item} source={item.uri}></Image>
-            <Image style={styles.moreInfo} source={MoreInfo}></Image>
           </TouchableOpacity>
         )}
         keyExtractor={item => item.id}
@@ -474,16 +492,16 @@ function UserPage() {
 
       <View style={styles.buttonHeader}>
         <TouchableOpacity style={[selection === 0 ? { color: "#777777", borderBottomColor: 'black', borderBottomWidth: 2, marginBottom: 20 } : null]} onPress={() => setSelection(0)}>
-          <Text style={[styles.subButton, selection === 0 ? { color: "black" } : null]}>Activity</Text>
+          <Text style={[styles.subButton, selection === 0 ? { color: "black", fontWeight: "bold" } : null]}>Activity</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[selection === 1 ? { color: "#777777", borderBottomColor: 'black', borderBottomWidth: 2, marginBottom: 20 } : null]} onPress={() => setSelection(1)}>
-          <Text style={[styles.subButton, selection === 1 ? { color: "black" } : null]}>Recent Watches</Text>
+          <Text style={[styles.subButton, selection === 1 ? { color: "black", fontWeight: "bold" } : null]}>Recent Watches</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[selection === 2 ? { color: "#777777", borderBottomColor: 'black', borderBottomWidth: 2, marginBottom: 20 } : null]} onPress={() => setSelection(2)}>
-          <Text style={[styles.subButton, selection === 2 ? { color: "black" } : null]}>Watch Later</Text>
+          <Text style={[styles.subButton, selection === 2 ? { color: "black", fontWeight: "bold" } : null]}>Watch Later</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[selection === 3 ? { color: "#777777", borderBottomColor: 'black', borderBottomWidth: 2, marginBottom: 20 } : null]} onPress={() => setSelection(3)}>
-          <Text style={[styles.subButton, selection === 3 ? { color: "black" } : null]}>Reviews</Text>
+          <Text style={[styles.subButton, selection === 3 ? { color: "black", fontWeight: "bold" } : null]}>Reviews</Text>
         </TouchableOpacity>
       </View>
 
@@ -504,7 +522,7 @@ const styles = StyleSheet.create({
   userHeader: {
     width: "100%",
     height: "auto",
-    marginTop: 70,
+    marginTop: 60,
     display: "flex",
     flexDirection: "row"
   },
@@ -533,7 +551,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "black",
     marginTop: 10,
-    fontWeight: "bold"
   },
   settingsIcon: {
     position: "absolute",
@@ -543,7 +560,7 @@ const styles = StyleSheet.create({
   sectionHeader: {
     width: "100%",
     height: 50,
-    marginTop: 10,
+    marginTop: 5,
     display: "flex",
     flexDirection: "row",
     justifyContent: 'space-between',
@@ -586,12 +603,22 @@ const styles = StyleSheet.create({
     maxHeight: 130,
     flexGrow: 1,
     marginLeft: 20,
-    marginRight: 20,
+    height: "auto",
+  },
+  movieGridBig: {
+    width: "auto",
+    maxHeight: 140,
+    flexGrow: 1,
+    marginLeft: 20,
     height: "auto",
   },
   itemContainer: {
     width: 90,
     height: 130,
+  },
+  activityItemContainer: {
+    width: 100,
+    height: 135
   },
   item: {
     flex: 1,
@@ -601,11 +628,6 @@ const styles = StyleSheet.create({
     height: null,
     resizeMode: 'stretch',
     borderRadius: 8,
-  },
-  moreInfo: {
-    position: "absolute",
-    top: 5,
-    right: 5
   },
   subPage: {
     width: "100%",
@@ -680,6 +702,7 @@ const styles = StyleSheet.create({
   },
   reviewText: {
     fontSize: 14,
+    marginBottom: 10
   },
   reviewRating: {
     left: 0,
@@ -690,10 +713,11 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     left: 115,
-    marginTop: 5,
+    marginTop: 0,
     alignItems: "center",
     width: "70%",
-    height: 30
+    height: 30,
+    marginBottom: -5
   },
   reviewPostIcon: {
     height: 30,
@@ -725,7 +749,6 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginTop: 10,
     marginLeft: 70,
-    marginRight: 20,
     height: "auto",
   },
   activityPostInfo: {

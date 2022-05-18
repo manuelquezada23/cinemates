@@ -5,12 +5,13 @@ import IconFiller from '../../assets/icon-filler.png'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const friendSuggestionsData = [
-    { name: "Guy Hawkins", info: "9 mutual friends", id: "16" },
-    { name: "Marvin McKinney", info: "9 mutual friends", id: "17" },
-    { name: "Devon Lane", info: "9 mutual friends", id: "18" },
-    { name: "Eleanor Pena", info: "9 mutual friends", id: "19" },
-    { name: "Jerome Bell", info: "9 mutual friends", id: "20" },
+    { name: "Guy Hawkins", info: "9 mutual friends", id: "16", added: false },
+    { name: "Marvin McKinney", info: "9 mutual friends", id: "17", added: false },
+    { name: "Devon Lane", info: "9 mutual friends", id: "18", added: false },
+    { name: "Eleanor Pena", info: "9 mutual friends", id: "19", added: false },
+    { name: "Jerome Bell", info: "9 mutual friends", id: "20", added: false },
 ]
+
 const currentUserData = {
     friends: [
         { id: "1", name: "Manuel Quezada" },
@@ -32,33 +33,120 @@ const currentUserData = {
 }
 
 const inviteToCinematesData = [
-    { name: "Guy Hawkins", info: "9 mutual friends", id: "21" },
-    { name: "Marvin McKinney", info: "9 mutual friends", id: "22" },
-    { name: "Devon Lane", info: "9 mutual friends", id: "23" },
-    { name: "Eleanor Pena", info: "9 mutual friends", id: "24" },
-    { name: "Guy Hawkins", info: "9 mutual friends", id: "25" },
-    { name: "Marvin McKinney", info: "9 mutual friends", id: "26" },
-    { name: "Devon Lane", info: "9 mutual friends", id: "27" },
-    { name: "Eleanor Pena", info: "9 mutual friends", id: "28" },
-    { name: "Guy Hawkins", info: "9 mutual friends", id: "29" },
-    { name: "Marvin McKinney", info: "9 mutual friends", id: "30" },
-    { name: "Devon Lane", info: "9 mutual friends", id: "31" },
-    { name: "Eleanor Pena", info: "9 mutual friends", id: "32" },
+    { name: "Guy Hawkins", info: "9 mutual friends", id: "2433551", invited: false },
+    { name: "Marvin McKinney", info: "9 mutual friends", id: "2334542", invited: false },
+    { name: "Devon Lane", info: "9 mutual friends", id: "344423", invited: false },
+    { name: "Eleanor Pena", info: "9 mutual friends", id: "2434434", invited: false },
+    { name: "Guy Hawkins", info: "9 mutual friends", id: "5567825", invited: false },
+    { name: "Marvin McKinney", info: "9 mutual friends", id: "264050", invited: false },
+    { name: "Devon Lane", info: "9 mutual friends", id: "25748847", invited: false },
+    { name: "Eleanor Pena", info: "9 mutual friends", id: "2402048", invited: false },
+    { name: "Guy Hawkins", info: "9 mutual friends", id: "2429319", invited: false },
+    { name: "Marvin McKinney", info: "9 mutual friends", id: "4532040130", invited: false },
+    { name: "Devon Lane", info: "9 mutual friends", id: "342130121", invited: false },
+    { name: "Eleanor Pena", info: "9 mutual friends", id: "34123102", invited: false },
 ]
 
 function SyncContacts({ navigation }) {
     const [searchQuery, setSearchQuery] = React.useState('');
-    const onChangeSearch = query => setSearchQuery(query);
 
     const [addFriends, setAddFriends] = useState(true)
     const [myFriends, setMyFriends] = useState(false)
 
     const [friendSuggestions, setFriendSuggestions] = useState(friendSuggestionsData)
     const [currentUser, setCurrentUser] = useState(currentUserData)
+    const [currentUserFriends, setCurrentUserFriends] = useState(currentUser.friends)
     const [inviteToCinemates, setInviteToCinemates] = useState(inviteToCinematesData)
 
     const [numberOfFriendSuggestions, setNumberOfFriendSuggestions] = useState(friendSuggestions.length)
     const [numberOfInviteToCinemates, setNumberOfInviteToCinemates] = useState(inviteToCinemates.length)
+
+    const onChangeSearch = (query) => {
+        if (query.length === 0) {
+            setSearchQuery('')
+            setCurrentUserFriends(currentUser.friends)
+            setFriendSuggestions(friendSuggestionsData)
+            setInviteToCinemates(inviteToCinematesData)
+        } else {
+            setSearchQuery(query)
+
+            if (addFriends) {
+                let filteredSuggestions = friendSuggestions.slice();
+                filteredSuggestions = filteredSuggestions.filter(f => (f.name.toLowerCase().includes(searchQuery.toLowerCase())))
+                setFriendSuggestions(filteredSuggestions)
+                let filteredInvitations = inviteToCinemates.slice();
+                filteredInvitations = filteredInvitations.filter(f => (f.name.toLowerCase().includes(searchQuery.toLowerCase())))
+                setInviteToCinemates(filteredInvitations)
+            } else if (myFriends) {
+                let filteredFriends = currentUser.friends.slice();
+                filteredFriends = filteredFriends.filter(f => (f.name.toLowerCase().includes(searchQuery.toLowerCase())))
+                console.log(filteredFriends)
+                setCurrentUserFriends(filteredFriends)
+            }
+        }
+    }
+
+    function FriendComponent(props) {
+        let added = props.currentUser.added;
+
+        function friendSuggestionAction(type) {
+            if (type === "add") {
+                const newStatus = !added;
+                let newFriendSuggestions = friendSuggestions.slice();
+                const index = newFriendSuggestions.findIndex((obj => obj.id === props.currentUser.id));
+                newFriendSuggestions[index].added = newStatus
+                setFriendSuggestions(newFriendSuggestions)
+
+            } else {
+                let newFriendSuggestions = friendSuggestions.slice();
+                newFriendSuggestions.splice(newFriendSuggestions.indexOf(props.currentUser), 1);
+                setFriendSuggestions(newFriendSuggestions)
+                let newNumber = numberOfFriendSuggestions - 1;
+                setNumberOfFriendSuggestions(newNumber)
+            }
+        }
+
+        return (
+            <View style={styles.itemContainer}>
+                <Image style={styles.contactPicture} source={IconFiller}></Image>
+                <Text style={styles.contactName}>{props.currentUser.name}</Text>
+                <Text style={styles.subName}>{props.currentUser.info}</Text>
+                <TouchableOpacity onPress={() => { friendSuggestionAction("add") }} style={added ? styles.addedButton : styles.addButton}><Text style={added ? styles.addedButtonText : styles.addButtonText}>{added ? "Added" : "+ Add"}</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => { friendSuggestionAction("close") }} style={styles.clearButton}><Ionicons name="close-outline" size={20}></Ionicons></TouchableOpacity>
+            </View>
+        );
+    }
+
+    function InviteComponent(props) {
+        let invited = props.currentUser.invited
+
+        function inviteToCinematesAction(type) {
+            if (type === "invite") {
+                const newStatus = !invited;
+                let newInviteToCinemates = inviteToCinemates.slice();
+                const index = newInviteToCinemates.findIndex((obj => obj.id === props.currentUser.id));
+                newInviteToCinemates[index].invited = newStatus
+                setInviteToCinemates(newInviteToCinemates)
+                console.log("inviting " + props.currentUser.name + " to Cinemates!")
+            } else {
+                let newInviteToCinemates = inviteToCinemates.slice();
+                newInviteToCinemates.splice(newInviteToCinemates.indexOf(props.currentUser), 1);
+                setInviteToCinemates(newInviteToCinemates)
+                let newNumber = numberOfInviteToCinemates - 1;
+                setNumberOfInviteToCinemates(newNumber)
+            }
+        }
+
+        return (
+            <View style={styles.itemContainer}>
+                <Image style={styles.contactPicture} source={IconFiller}></Image>
+                <Text style={styles.contactName}>{props.currentUser.name}</Text>
+                <Text style={styles.subName}>{props.currentUser.info}</Text>
+                <TouchableOpacity onPress={() => { inviteToCinematesAction("invite") }} style={invited ? styles.addedButton : styles.addButton}><Text style={invited ? styles.addedButtonText : styles.addButtonText}>{invited ? "Invited" : "+ Invite"}</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => { inviteToCinematesAction("close") }} style={styles.clearButton}><Ionicons name="close-outline" size={20}></Ionicons></TouchableOpacity>
+            </View>
+        );
+    }
 
     useEffect(() => {
         if (numberOfFriendSuggestions === 0 && numberOfInviteToCinemates === 0) {
@@ -76,30 +164,6 @@ function SyncContacts({ navigation }) {
         }
     }
 
-    function friendSuggestionAction(type, user) {
-        if (type === "add") {
-            let newCurrentUser = currentUser;
-            newCurrentUser.friends.push({ id: user.id, name: user.name })
-            setCurrentUser(newCurrentUser)
-        }
-        let newFriendSuggestions = friendSuggestions.slice();
-        newFriendSuggestions.splice(newFriendSuggestions.indexOf(user), 1);
-        setFriendSuggestions(newFriendSuggestions)
-        let newNumber = numberOfFriendSuggestions - 1;
-        setNumberOfFriendSuggestions(newNumber)
-    }
-
-    function inviteToCinematesAction(type, user) {
-        if (type === "invite") {
-            console.log("inviting " + user.name + " to Cinemates!")
-        }
-        let newInviteToCinemates = inviteToCinemates.slice();
-        newInviteToCinemates.splice(newInviteToCinemates.indexOf(user), 1);
-        setInviteToCinemates(newInviteToCinemates)
-        let newNumber = numberOfInviteToCinemates - 1;
-        setNumberOfInviteToCinemates(newNumber)
-    }
-
     React.useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => (
@@ -115,6 +179,7 @@ function SyncContacts({ navigation }) {
                 onChangeText={onChangeSearch}
                 value={searchQuery}
                 style={styles.searchBar}
+                selectionColor={"black"}
             />
             <View style={styles.tabs}>
                 <TouchableOpacity style={addFriends ? styles.tab : styles.tabSelected} onPress={() => { changeTab("addFriends") }}>
@@ -130,31 +195,19 @@ function SyncContacts({ navigation }) {
                         <Text style={styles.subTitle}>Friend Suggestions ({friendSuggestions.length})</Text>
                     }
                     {friendSuggestions.map((user) => (
-                        <View style={styles.itemContainer} key={user.id}>
-                            <Image style={styles.contactPicture} source={IconFiller}></Image>
-                            <Text style={styles.contactName}>{user.name}</Text>
-                            <Text style={styles.subName}>{user.info}</Text>
-                            <TouchableOpacity onPress={() => { friendSuggestionAction("add", user) }} style={styles.addButton}><Text style={styles.addButtonText}>+ Add</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={() => { friendSuggestionAction("close", user) }} style={styles.clearButton}><Ionicons name="close-outline" size={20}></Ionicons></TouchableOpacity>
-                        </View>
+                        <FriendComponent key={user.id} currentUser={user} />
                     ))}
                     {numberOfInviteToCinemates !== 0 &&
                         <Text style={styles.subTitle}>Invite to Cinemates ({inviteToCinemates.length})</Text>
                     }
                     {inviteToCinemates.map((user) => (
-                        <View style={styles.itemContainer} key={user.id}>
-                            <Image style={styles.contactPicture} source={IconFiller}></Image>
-                            <Text style={styles.contactName}>{user.name}</Text>
-                            <Text style={styles.subName}>{user.info}</Text>
-                            <TouchableOpacity onPress={() => { inviteToCinematesAction("invite", user) }} style={styles.addButton}><Text style={styles.addButtonText}>+ Invite</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={() => { inviteToCinematesAction("close", user) }} style={styles.clearButton}><Ionicons name="close-outline" size={20}></Ionicons></TouchableOpacity>
-                        </View>
+                        <InviteComponent key={user.id} currentUser={user} />
                     ))}
                 </ScrollView>
             }
             {myFriends &&
                 < FlatList
-                    data={currentUser.friends}
+                    data={currentUserFriends}
                     style={styles.grid}
                     renderItem={({ item }) => (
                         <View style={styles.itemContainer} key={item.id}>
@@ -234,7 +287,21 @@ const styles = StyleSheet.create({
         width: 90,
         justifyContent: "center",
         alignItems: "center",
-        top: 10
+        top: 10,
+        // backgroundColor: "red"
+    },
+    addedButton: {
+        position: "absolute",
+        right: 30,
+        borderRadius: 100,
+        borderColor: "#FF3D60",
+        borderWidth: 1,
+        height: 30,
+        width: 90,
+        justifyContent: "center",
+        alignItems: "center",
+        top: 10,
+        backgroundColor: "#FF3D60"
     },
     clearButton: {
         position: "absolute",
@@ -244,6 +311,10 @@ const styles = StyleSheet.create({
     addButtonText: {
         fontWeight: "bold",
         color: "#FF3D60"
+    },
+    addedButtonText: {
+        fontWeight: "bold",
+        color: "white"
     },
     subName: {
         color: "#777777",
