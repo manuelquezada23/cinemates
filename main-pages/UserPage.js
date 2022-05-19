@@ -7,6 +7,7 @@ import Stars from 'react-native-stars';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 import ReadMore from '@fawazahmed/react-native-read-more';
+import ActivityFeed from '../components/ActivityFeed';
 
 const currentUser = [
   { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), bio: "Radio jockey, music lover", followers: "12k", following: "850" },
@@ -32,126 +33,6 @@ const activities = [
   { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), text: "reviewed Dead To Me.", date: "5d", comments: 32, likes: 143, liked: true, movie: require('../assets/1.jpg'), rating: 4, movieText: "The acting in this masterpiece of a show is astronomical. Like I’m WAY too invested in this show... Read More", numberOfReviews: 14, numberOfLikes: 324, reviewLiked: false },
   { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), text: "added Hannah Montana and 3 other movies in her watch later.", date: "5d", comments: 14, likes: 324, liked: false, movie: null }
 ]
-
-function ActivityPage() {
-  const navigation = useNavigation()
-  const refRBSheet = useRef();
-  function moreInfoOnMovie() {
-    refRBSheet.current.open()
-  }
-  return (
-    <View style={{ maxHeight: 350 }}>
-      <ScrollView style={styles.subPage}>
-        <RBSheet
-          ref={refRBSheet}
-          closeOnDragDown={true}
-          closeOn
-          closeOnPressMask={true}
-          customStyles={{
-            wrapper: {
-              backgroundColor: "transparent"
-            },
-            draggableIcon: {
-              backgroundColor: "#000"
-            }
-          }}
-        >
-          <MoreOptions sheet={refRBSheet} />
-        </RBSheet>
-        {activities.map((ac) => (
-          <TouchableOpacity style={styles.activity} key={ac.text}>
-            <View style={styles.reviewHeader}>
-              <Image source={ac.picture} style={styles.reviewPicture}></Image>
-              <View style={styles.activityHeaderInfo}>
-                {(ac.text.includes("recently enjoyed watching")) &&
-                  <Text style={styles.reviewName}>{ac.name} <Text style={{ fontWeight: "normal" }}>{ac.text} </Text> <Ionicons name="thumbs-up-outline" size={20} color={"#FF3D60"} /><Text style={{ color: "gray", fontWeight: "normal", fontSize: 14 }}> {ac.date}</Text></Text>
-                }
-                {(ac.text.includes("recently disliked watching")) &&
-                  <Text style={styles.reviewName}>{ac.name} <Text style={{ fontWeight: "normal" }}>{ac.text} </Text> <Ionicons name="thumbs-down-outline" size={20} color={"#FF3D60"} /><Text style={{ color: "gray", fontWeight: "normal", fontSize: 14 }}> {ac.date}</Text></Text>
-                }
-                {((ac.text.includes("watch later")) || (ac.text.includes("reviewed"))) &&
-                  <Text style={styles.reviewName}>{ac.name} <Text style={{ fontWeight: "normal" }}>{ac.text}</Text> <Text style={{ color: "gray", fontWeight: "normal", fontSize: 14 }}>{ac.date}</Text></Text>
-                }
-              </View>
-            </View>
-
-            {((ac.text.includes("recently enjoyed watching")) || (ac.text.includes("recently disliked watching")) || (ac.text.includes("watch later"))) &&
-              <FlatList
-                data={movies}
-                style={styles.activityMovieGrid}
-                showsHorizontalScrollIndicator={false}
-                renderItem={({ item }) => (
-                  <TouchableOpacity style={styles.activityItemContainer} onPress={() => { navigation.navigate("MovieDisplay") }}>
-                    <Image style={styles.item} source={item.uri}></Image>
-                  </TouchableOpacity>
-                )}
-                keyExtractor={item => item.id}
-                horizontal={true} />
-            }
-
-            {(ac.text.includes("reviewed")) &&
-              <TouchableOpacity style={styles.activityReview}>
-                <TouchableOpacity style={styles.reviewItemContainer} onPress={() => { navigation.navigate("MovieDisplay") }}>
-                  <Image style={styles.item} source={ac.movie}></Image>
-                </TouchableOpacity>
-                <View style={styles.activityReviewBodyInfo}>
-                  <View style={styles.reviewRating}>
-                    <Stars
-                      half={true}
-                      default={ac.rating}
-                      spacing={4}
-                      display={ac.rating}
-                      count={5}
-                      fullStar={<Ionicons name="star"></Ionicons>}
-                      emptyStar={<Ionicons name="star-outline"></Ionicons>}
-                      halfStar={<Ionicons name="star-half-outline"></Ionicons>} />
-                  </View>
-                  <Text style={styles.activityReviewText} numberOfLines={4}>{ac.movieText}</Text>
-                  <View style={styles.activityReviewPostInfo}>
-                    <View style={styles.activityReviewPostIcon}>
-                      <Ionicons name="chatbubble-outline" size={15}></Ionicons>
-                    </View>
-                    <Text style={styles.activityReviewPostText}>{ac.numberOfReviews} Reviews <Text style={{ color: "gray" }}> |</Text></Text>
-                    {(ac.reviewLiked === false) &&
-                      <View style={styles.activityReviewPostIcon}>
-                        <Ionicons name="thumbs-up-outline" size={15}></Ionicons>
-                      </View>
-                    }
-                    {(ac.reviewLiked === true) &&
-                      <View style={styles.activityReviewPostIcon}>
-                        <Ionicons name="thumbs-up" size={15}></Ionicons>
-                      </View>
-                    }
-                    <Text style={styles.activityReviewPostText}>{ac.numberOfLikes} Likes</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            }
-
-            <View style={styles.activityPostInfo}>
-              <View style={styles.reviewPostIcon}>
-                <Ionicons name="chatbubble-outline" size={20}></Ionicons>
-              </View>
-              <Text style={styles.reviewPostText}>{ac.comments} Comments <Text style={{ color: "gray" }}> |</Text></Text>
-              {(ac.liked === false) &&
-                <View style={styles.reviewPostIcon}>
-                  <Ionicons name="thumbs-up-outline" size={20}></Ionicons>
-                </View>
-              }
-              {(ac.liked === true) &&
-                <View style={styles.reviewPostIcon}>
-                  <Ionicons name="thumbs-up" size={20}></Ionicons>
-                </View>
-              }
-              <Text style={styles.reviewPostText}>{ac.likes} Likes</Text>
-            </View>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-    </View>
-  );
-
-}
 
 function RecentWatches() {
   const navigation = useNavigation()
@@ -505,11 +386,17 @@ function UserPage() {
         </TouchableOpacity>
       </View>
 
-      {(selection === 0) && <ActivityPage />}
+      {(selection === 0) &&
+        <View style={{ maxHeight: 350 }}>
+          <ScrollView style={styles.subPage}>
+            <ActivityFeed activities={activities} movies={movies} />
+          </ScrollView>
+        </View>
+      }
       {(selection === 1) && <RecentWatches />}
       {(selection === 2) && <WatchLater />}
       {(selection === 3) && <Reviews />}
-    </View>
+    </View >
   );
 }
 
