@@ -1,59 +1,101 @@
-import { View, TouchableOpacity, StyleSheet, Image, Text, FlatList, TextInput } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Image, Text, FlatList, TextInput, Share } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
 import { Searchbar } from 'react-native-paper';
 import IconFiller from '../assets/icon-filler.png';
-import SendIcon from '../assets/send-icon.png'
 
-class RatingFlatListComponent extends React.Component {
-    state = {
-        status: false,
+const contactsData = [
+    { id: "1", name: "Manuel Quezada", selected: false },
+    { id: "2", name: "Esteban Gonzalez", selected: false },
+    { id: "3", name: "Jaime Torres", selected: false },
+    { id: "4", name: "Aixa Belmont", selected: false },
+    { id: "5", name: "Maya Fleischer", selected: false },
+    { id: "6", name: "Jose Urruticoechea", selected: false },
+    { id: "7", name: "Tatiana Mandis", selected: false },
+    { id: "8", name: "Ethan Polley", selected: false },
+    { id: "9", name: "Laeticia Cherfan", selected: false },
+    { id: "10", name: "Kyra Haddad", selected: false },
+    { id: "11", name: "Sofia Vaca Narvaja", selected: false },
+    { id: "12", name: "Mariana Alvaro", selected: false },
+    { id: "13", name: "Daniel Civita", selected: false },
+    { id: "14", name: "Daniel Erath", selected: false },
+    { id: "15", name: "Josh Gindi", selected: false },
+]
+
+
+function SendToFriend({ navigation, route }) {
+    const [searchQuery, setSearchQuery] = React.useState('');
+    const [input, onChangeText] = React.useState("");
+    const [contacts, setContacts] = React.useState(contactsData);
+    const [disabledInput, setDisabledInput] = useState(false)
+
+    useEffect(() => {
+        const RBSheet = route.params.sheet;
+        RBSheet.current.close();
+    })
+
+    const onChangeSearch = (query) => {
+        setSearchQuery(query)
+        if (query.length === 0) {
+            setContacts(contactsData)
+        } else {
+            let filteredContacts = contacts.slice();
+            filteredContacts = filteredContacts.filter(f => (f.name.toLowerCase().includes(searchQuery.toLowerCase())))
+            setContacts(filteredContacts)
+        }
     }
-    render() {
+
+    const onChangeInput = (text) => {
+        onChangeText(text)
+        if (text.length === 0) {
+            setDisabledInput(false)
+        } else {
+            setDisabledInput(true)
+        }
+    }
+
+    async function moreOptions() {
+        try {
+            const result = await Share.share({
+                message:
+                    'Cool Cinemates message would go here!',
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    }
+
+    function RatingFlatListComponent(props) {
+        let status = props.friend.selected
+
         return (
             <View style={styles.itemContainer}>
                 <TouchableOpacity style={styles.checkIcon} onPress={() => {
-                    const newStatus = !this.state.status;
-                    this.setState({
-                        status: newStatus,
-                    });
+                    const newStatus = !status;
+                    let newContacts = contactsData.slice();
+                    const index = newContacts.findIndex((obj => obj.id === props.friend.id));
+                    newContacts[index].selected = newStatus
+                    setContacts(newContacts)
                 }}>
-                    <Ionicons name={this.state.status ? "checkbox" : "square-outline"} size={25}></Ionicons>
+                    <Ionicons name={status ? "checkbox" : "square-outline"} size={25}></Ionicons>
                 </TouchableOpacity>
                 <Image style={styles.contactPicture} source={IconFiller}></Image>
                 <View style={styles.contactInfo}>
-                    <Text style={styles.contactName}>{this.props.friend.name}</Text>
+                    <Text style={styles.contactName}>{props.friend.name}</Text>
                     <Text style={styles.subName}>2k Followers</Text>
                 </View>
             </View>
         );
     }
-}
-
-function SendToFriend() {
-    const navigation = useNavigation();
-    const [searchQuery, setSearchQuery] = React.useState('');
-    const onChangeSearch = query => setSearchQuery(query);
-    const [input, onChangeText] = React.useState("");
-
-    const contacts = [
-        { id: "1", name: "Manuel Quezada" },
-        { id: "2", name: "Esteban Gonzalez" },
-        { id: "3", name: "Jaime Torres" },
-        { id: "4", name: "Aixa Belmont" },
-        { id: "5", name: "Maya Fleischer" },
-        { id: "6", name: "Jose Urruticoechea" },
-        { id: "7", name: "Tatiana Mandis" },
-        { id: "8", name: "Ethan Polley" },
-        { id: "9", name: "Laeticia Cherfan" },
-        { id: "10", name: "Kyra Haddad" },
-        { id: "11", name: "Sofia Vaca Narvaja" },
-        { id: "12", name: "Mariana Alvaro" },
-        { id: "13", name: "Daniel Civita" },
-        { id: "14", name: "Daniel Erath" },
-        { id: "15", name: "Josh Gindi" },
-    ]
 
     return (
         <React.Fragment>
@@ -65,9 +107,13 @@ function SendToFriend() {
                 <Searchbar
                     placeholder="Search"
                     onChangeText={onChangeSearch}
+                    selectionColor={"black"}
                     value={searchQuery}
                     style={styles.searchBar}
                 />
+                <TouchableOpacity style={styles.moreOptions} onPress={() => { moreOptions() }}>
+                    <Text style={styles.moreOptionsText}>More Options</Text>
+                </TouchableOpacity>
             </View>
             <FlatList
                 data={contacts}
@@ -80,11 +126,15 @@ function SendToFriend() {
             <View style={styles.bottomBar}>
                 <TextInput
                     style={styles.input}
-                    onChangeText={onChangeText}
+                    placeholder={"Add a Comment"}
+                    onChangeText={onChangeInput}
                     value={input}
+                    selectionColor={"black"}
                 />
-                <TouchableOpacity>
-                    <Image style={styles.sendIcon} source={SendIcon}></Image>
+                <TouchableOpacity disabled={disabledInput ? false : true}>
+                    <View style={styles.sendIcon} opacity={disabledInput ? 1 : 0.5}>
+                        <Ionicons name="paper-plane-outline" size={23} />
+                    </View>
                 </TouchableOpacity>
             </View>
         </React.Fragment>
@@ -167,7 +217,7 @@ const styles = StyleSheet.create({
     bottomBar: {
         width: "100%",
         height: 100,
-        backgroundColor: "#F2F2F2",
+        backgroundColor: "white",
     },
     input: {
         position: "absolute",
@@ -186,7 +236,20 @@ const styles = StyleSheet.create({
         height: 40,
         position: "absolute",
         top: 20,
-        right: 20
+        right: 20,
+        borderRadius: 20,
+        backgroundColor: "#FF3D60",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    moreOptions: {
+        position: "absolute",
+        right: 20,
+        bottom: 62
+    },
+    moreOptionsText: {
+        color: "#FF3D60",
+        fontWeight: "bold"
     }
 });
 

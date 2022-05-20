@@ -1,12 +1,9 @@
 import { View, StyleSheet, FlatList, Image, TouchableOpacity, Dimensions, Button } from 'react-native';
-import MoreInfo from '../assets/more-info.png'
 import RBSheet from "react-native-raw-bottom-sheet";
 import MoreOptions from "../components/MoreOptions"
 import React, { useRef, useEffect } from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import FilterBy from './FilterBy';
-
-const size = (Dimensions.get('window').width / 3) - (Dimensions.get('window').width * 0.035);
 
 const movies = [
     { id: "1", uri: require('../assets/1.jpg') },
@@ -39,7 +36,7 @@ function HeaderRight() {
     }
 
     return (
-        <View style={{ display: "flex", flexDirection: "row"}}>
+        <View style={{ display: "flex", flexDirection: "row" }}>
             <RBSheet
                 ref={refRBSheet}
                 height={650}
@@ -56,10 +53,10 @@ function HeaderRight() {
             >
                 <FilterBy />
             </RBSheet>
-            <TouchableOpacity style={{marginRight: 15}}>
+            <TouchableOpacity style={{ marginRight: 15 }}>
                 <Ionicons name="search-outline" size={24}></Ionicons>
             </TouchableOpacity>
-            <TouchableOpacity style={{marginRight: 5}} onPress={moreInfoOnMovie}>
+            <TouchableOpacity style={{ marginRight: 5 }} onPress={moreInfoOnMovie}>
                 <Ionicons name="filter-outline" size={24}></Ionicons>
             </TouchableOpacity>
         </View>
@@ -100,16 +97,17 @@ function AssetsDisplay({ route, navigation }) {
                     }
                 }}
             >
+
                 <MoreOptions sheet={refRBSheet} />
             </RBSheet>
 
             <FlatList
                 data={movies}
                 style={styles.grid}
+                showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
                     <TouchableOpacity style={styles.itemContainer} onPress={moreInfoOnMovie}>
                         <Image style={styles.item} source={item.uri}></Image>
-                        <Image style={styles.moreInfo} source={MoreInfo}></Image>
                     </TouchableOpacity>
                 )}
                 keyExtractor={item => item.id}
@@ -135,8 +133,8 @@ const styles = StyleSheet.create({
         marginBottom: 50
     },
     itemContainer: {
-        width: size,
-        height: 160,
+        height: 180,
+        flex: 1 / 3
     },
     item: {
         flex: 1,
@@ -146,11 +144,6 @@ const styles = StyleSheet.create({
         height: null,
         resizeMode: 'stretch',
         borderRadius: 8,
-    },
-    moreInfo: {
-        position: "absolute",
-        top: 10,
-        right: 10
     },
 });
 

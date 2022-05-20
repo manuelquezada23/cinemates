@@ -13,12 +13,13 @@ function AddAReview() {
 
     return (
         <View style={styles.mainView}>
-            <Text style={styles.header}>ADD A REVIEW</Text>
+            <Text style={styles.header}>Add a Review</Text>
             <TextInput style={styles.input}
                 placeholder="Write Your Thoughts"
                 onChangeText={onChangeText}
                 value={reviewText}
                 multiline={true}
+                selectionColor={"black"}
             />
             <Text style={styles.subHeader}>Your Rating</Text>
             <View style={styles.ratingsFilterStars}>
@@ -48,7 +49,8 @@ const styles = StyleSheet.create({
     },
     header: {
         fontSize: 14,
-        color: "#777777"
+        color: "black",
+        fontWeight: "bold"
     },
     subHeader: {
         marginTop: 10,

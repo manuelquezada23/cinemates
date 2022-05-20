@@ -8,7 +8,8 @@ import React, { useRef, useState, useEffect } from 'react'
 import ReadMore from '@fawazahmed/react-native-read-more';
 import Stars from 'react-native-stars';
 
-function MovieDisplay({ assetInfo }) {
+function MovieDisplay(props) {
+    const RBSheet = props.sheet.current
 
     const asset = {
         id: "1",
@@ -26,38 +27,10 @@ function MovieDisplay({ assetInfo }) {
     }
 
     const navigation = useNavigation()
-    const refRBSheet = useRef();
-
-    function moreInfoOnMovie() {
-        refRBSheet.current.open()
-    }
 
     return (
         <React.Fragment>
-            <View style={styles.customHeader}>
-                <TouchableOpacity style={styles.backButton} onPress={() => { navigation.goBack() }}>
-                    <Ionicons name="arrow-back-outline" size={25}></Ionicons>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.moreInfoButton} onPress={() => { moreInfoOnMovie() }}>
-                    <Ionicons name="ellipsis-vertical" size={25}></Ionicons>
-                </TouchableOpacity>
-            </View>
             <ScrollView style={styles.mainView} showsVerticalScrollIndicator={false}>
-                <RBSheet
-                    ref={refRBSheet}
-                    closeOnDragDown={true}
-                    closeOnPressMask={false}
-                    customStyles={{
-                        wrapper: {
-                            backgroundColor: "transparent"
-                        },
-                        draggableIcon: {
-                            backgroundColor: "#000"
-                        }
-                    }}
-                >
-                    <MoreOptions sheet={refRBSheet} />
-                </RBSheet>
                 <View style={styles.movieHeader}>
                     <View style={styles.itemContainer}>
                         <Image style={styles.item} source={asset.uri}></Image>
@@ -79,6 +52,28 @@ function MovieDisplay({ assetInfo }) {
                         </View>
                     </View>
                 </View>
+                <View style={styles.metaDataView}>
+                    <TouchableOpacity style={styles.metaDataBox}>
+                        <Ionicons style={styles.metaDataBoxIcon} name="chatbubble-outline" size={35} />
+                        <Text style={styles.metaDataBoxText}>32 reviews</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.metaDataBox}>
+                        <Ionicons style={styles.metaDataBoxIcon} name="paper-plane-outline" size={35} />
+                        <Text style={styles.metaDataBoxText}>Send to Friends</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.metaDataBox}>
+                        <Ionicons style={styles.metaDataBoxIcon} name="star-outline" size={35} />
+                        <Text style={styles.metaDataBoxText}>Watch Later</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.metaDataBoxLast}>
+                        <Ionicons style={styles.metaDataBoxIcon} name="checkmark-circle-outline" size={35} />
+                        <Text style={styles.metaDataBoxText}>Already Watched</Text>
+                    </TouchableOpacity>
+                </View>
+                <TouchableOpacity style={styles.moreInfoView}>
+                    <Text style={styles.moreInfoText}>More Info</Text>
+                    <Ionicons style={styles.moreInfoIcon} name="chevron-down-outline" size={20} color={"#FF3D60"} />
+                </TouchableOpacity>
                 <View style={styles.container}>
                     <Text style={styles.subTitle}>Cast & Crews</Text>
                     <View style={styles.castAndCrewsView}>
@@ -137,7 +132,7 @@ function MovieDisplay({ assetInfo }) {
                             </View>
                         </View>
                     ))}
-                    <TouchableOpacity onPress={() => {navigation.navigate("Reviews")}}>
+                    <TouchableOpacity onPress={() => { navigation.navigate("Reviews") }}>
                         <Text style={styles.subTitleBottom} >View All Reviews</Text>
                     </TouchableOpacity>
                 </View>
@@ -153,23 +148,6 @@ const styles = StyleSheet.create({
         height: "100%",
         marginLeft: 20,
         marginRight: 20,
-    },
-    customHeader: {
-        display: "flex",
-        flexDirection: "row",
-        height: 90,
-        marginLeft: 20,
-        marginRight: 20
-    },
-    backButton: {
-        position: "absolute",
-        bottom: 0,
-        left: 0
-    },
-    moreInfoButton: {
-        position: "absolute",
-        bottom: 0,
-        right: 0
     },
     movieHeader: {
         display: "flex",
@@ -345,6 +323,51 @@ const styles = StyleSheet.create({
     reportText: {
         fontSize: 12,
         color: "grey"
+    },
+    metaDataView: {
+        display: "flex",
+        flexDirection: "row",
+        width: "100%",
+        height: 100,
+        marginTop: 25
+    },
+    metaDataBox: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "25%",
+        borderRightColor: "lightgrey",
+        borderRightWidth: 1,
+    },
+    metaDataBoxLast: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "25%",
+    },
+    metaDataBoxIcon: {
+        position: "absolute",
+        top: 10,
+    },
+    metaDataBoxText: {
+        position: "absolute",
+        top: 55,
+        width: "70%",
+        textAlign: "center"
+    },
+    moreInfoView: {
+        display: "flex",
+        marginTop: 25,
+        flexDirection: "row",
+        marginBottom: 5
+    },
+    moreInfoText: {
+        color: "#FF3D60",
+        fontWeight: "bold",
+        fontSize: 16,
+        marginRight: 10
     }
 });
 

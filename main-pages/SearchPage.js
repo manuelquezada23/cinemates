@@ -8,7 +8,8 @@ import MoreOptions from "../components/MoreOptions"
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'react-native';
 
-const size = (Dimensions.get('window').width / 3) - (Dimensions.get('window').width * 0.035);
+const size = (Dimensions.get('window').width / 3) - (Dimensions.get('window').width * 0.065);
+const marginRight = (Dimensions.get('window').width * 0.05)
 
 const movies = [
   { id: "1", uri: require('../assets/1.jpg') },
@@ -111,19 +112,10 @@ function SearchPage({ navigation }) {
     }
   }
 
-  const clearSearch = () => {
-    setSearchBarPressed(false)
-    setSearchQuery('')
-    setAssets(assetsDisplay)
-    setUsersArray(contactsDisplay)
-    setMovieFilter(false)
-    setTVShowsFilter(false)
-  }
-
   const refRBSheet = useRef();
 
   function moreInfoOnMovie() {
-    refRBSheet.current.open()
+    // refRBSheet.current.open()
   }
 
   function SearchPopUp() {
@@ -132,9 +124,24 @@ function SearchPage({ navigation }) {
       if (tab === "users") {
         setContent(false)
         setUsers(true)
+        let filteredUsers = contactsDisplay.slice();
+        filteredUsers = filteredUsers.filter(f => (f.name.toLowerCase().includes(searchQuery.toLowerCase())))
+        setUsersArray(filteredUsers)
       } else {
         setContent(true)
         setUsers(false)
+        let filteredAssets = assetsDisplay.slice();
+        filteredAssets = filteredAssets.filter(f => (f.title.toLowerCase().includes(searchQuery.toLowerCase())))
+
+        //movie filter
+        if (movieFilter && !tvShowsFilter) {
+          filteredAssets = filteredAssets.filter(f => (f.type === "movie"))
+        }
+        //tv shows filter
+        else if (tvShowsFilter && !movieFilter) {
+          filteredAssets = filteredAssets.filter(f => (f.type === "show"))
+        }
+        setAssets(filteredAssets)
       }
     }
 
@@ -233,13 +240,9 @@ function SearchPage({ navigation }) {
           placeholder="Search"
           selectionColor={"black"}
           onChangeText={onChangeSearch}
-          clearIcon={<Ionicons name="star"></Ionicons>}
           value={searchQuery}
           style={styles.searchBar}
         />
-        <View style={styles.cancelButton}>
-          <Button title="Cancel" color="black" onPress={clearSearch} />
-        </View>
       </View>
 
       {!searchBarPressed &&
@@ -259,22 +262,6 @@ function SearchPage({ navigation }) {
             )}
             keyExtractor={item => item.id}
             horizontal={true} />
-
-          <RBSheet
-            ref={refRBSheet}
-            closeOnDragDown={true}
-            closeOnPressMask={false}
-            customStyles={{
-              wrapper: {
-                backgroundColor: "transparent"
-              },
-              draggableIcon: {
-                backgroundColor: "#000"
-              }
-            }}
-          >
-            <MoreOptions sheet={refRBSheet} />
-          </RBSheet>
 
           <View style={styles.sectionHeader}>
             <Text style={styles.title}>Top Users</Text>
@@ -320,7 +307,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: "#CCCCCC",
     height: 32,
-    width: "70%",
+    width: "90%",
     top: 60,
     left: 20,
   },
@@ -430,7 +417,8 @@ const styles = StyleSheet.create({
   contentSearchView: {
     display: "flex",
     flexDirection: "column",
-    marginTop: 15
+    marginTop: 15,
+    height: "85%"
   },
   contentSearchViewFilters: {
     display: "flex",
@@ -459,8 +447,10 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   movieDisplayItemContainer: {
-    width: size,
-    height: 160,
+    // width: size,
+    height: 180,
+    // marginRight: 10,
+    flex: 1/3
   },
   movieDisplayItem: {
     flex: 1,
@@ -468,7 +458,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     width: null,
     height: null,
-    resizeMode: 'stretch',
+    resizeMode: 'cover',
     borderRadius: 8,
   },
   movieDisplayMoreInfo: {
@@ -478,7 +468,7 @@ const styles = StyleSheet.create({
   },
   movieDisplayGrid: {
     marginTop: 10,
-    height: "80%"
+    height: "80%",
   },
   searchViewUsers: {
     height: "85%"

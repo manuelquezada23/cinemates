@@ -4,8 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { Searchbar } from 'react-native-paper';
 import IconFiller from '../assets/icon-filler.png'
 
-const size = (Dimensions.get('window').width / 3) - (Dimensions.get('window').width * 0.035);
-
 const assetsDisplay = [
     { id: "1", uri: require('../assets/1.jpg'), type: "movie", title: "Joker", selected: false },
     { id: "2", uri: require('../assets/2.jpg'), type: "show", title: "Star Wars", selected: false },
@@ -152,7 +150,7 @@ function SendRecommendation({ navigation, route }) {
             marginLeft: 20,
             marginRight: 20,
             marginTop: 10,
-            height: "78%"
+            height: "80%"
         },
         topHeader: {
             width: "100%",
@@ -205,8 +203,8 @@ function SendRecommendation({ navigation, route }) {
             height: "80%"
         },
         movieDisplayItemContainer: {
-            width: size,
-            height: 160,
+            height: 180,
+            flex: 1 / 3
         },
         movieDisplayItem: {
             flex: 1,

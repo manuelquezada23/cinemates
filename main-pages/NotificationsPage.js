@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, ScrollView, Image, Button, TouchableOpacity } from 'react-native';
 import IconFiller from '../assets/icon-filler.png'
 import MoreInfo from '../assets/more-info.png'
-import MoreOptions from "../components/MoreOptions"
 import React, { useRef, useState } from 'react'
 import RBSheet from "react-native-raw-bottom-sheet";
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -39,7 +38,7 @@ function NotificationsPage() {
   const refRBSheet = useRef();
 
   function moreInfoOnMovie() {
-    refRBSheet.current.open()
+    // refRBSheet.current.open()
   }
 
   function FollowButtonComponent(props) {
@@ -114,21 +113,6 @@ function NotificationsPage() {
         <Text style={styles.headerTitle}> Notifications </Text>
       </View>
       <ScrollView style={styles.mainView}>
-        <RBSheet
-          ref={refRBSheet}
-          closeOnDragDown={true}
-          closeOnPressMask={false}
-          customStyles={{
-            wrapper: {
-              backgroundColor: "transparent"
-            },
-            draggableIcon: {
-              backgroundColor: "#000"
-            }
-          }}
-        >
-          <MoreOptions sheet={refRBSheet} />
-        </RBSheet>
 
         <View style={styles.block}>
           <Text style={styles.blockTitle}>This Week</Text>

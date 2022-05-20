@@ -10,8 +10,13 @@ import React, { useRef, useEffect } from 'react'
 import FilterReviews from './FilterReviews';
 import AddAReview from './AddAReview.js'
 
-function Reviews() {
-    const navigation = useNavigation();
+function Reviews({ navigation, route }) {
+
+    useEffect(() => {
+        const RBSheet = route.params.sheet;
+        RBSheet.current.close();
+    })
+
 
     const refRBSheet = useRef();
     const refRBSheetTwo = useRef();
@@ -28,7 +33,6 @@ function Reviews() {
         { name: "Dwight Brown", time: "10 min", image: require('../assets/icon-filler.png'), rating: 4, review: "A half-hour into The Martian any seasoned moviegoer can figure out where the plotline in this feel-good movie has to go. That's a shame and the film's biggest transgression." },
         { name: "Kip Mooney", time: "10 min", image: require('../assets/icon-filler.png'), rating: 4, review: "The best blockbuster of the year arrived later than anticipated." },
         { name: "Jason Bailey", time: "10 min", image: require('../assets/icon-filler.png'), rating: 4, review: "It's just a cracklingly good entertainment, a crowd-pleaser that's compelling and emotional and even a little inspirational." }],
-
     }
 
     return (
@@ -37,7 +41,7 @@ function Reviews() {
                 <TouchableOpacity style={styles.backButton} onPress={() => { navigation.goBack() }}>
                     <Ionicons name="arrow-back-outline" size={25}></Ionicons>
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>Send to Friend</Text>
+                <Text style={styles.headerTitle}>Reviews</Text>
                 <TouchableOpacity style={styles.filterIcon} onPress={() => { filterReviewsClick() }}>
                     <Ionicons name="filter-outline" size={24}></Ionicons>
                 </TouchableOpacity>
@@ -78,7 +82,7 @@ function Reviews() {
                 ))}
             </ScrollView>
             <View style={styles.bottomBar}>
-                <TouchableOpacity style={styles.input} onPress={() => {addAReview()}}>
+                <TouchableOpacity style={styles.input} onPress={() => { addAReview() }}>
                     <Text style={{ color: "lightgray" }}>Add a Comment</Text>
                 </TouchableOpacity>
                 <View>
@@ -290,7 +294,7 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     disclaimerButton: {
-        backgroundColor: "lightgrey",
+        backgroundColor: "#F2F2F2",
         borderRadius: 100,
         width: 60,
         height: 30,
