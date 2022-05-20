@@ -426,7 +426,9 @@ function UserPage() {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.sectionHeader}>
+      {/* This was taken away from the design */}
+
+      {/* <View style={styles.sectionHeader}>
         <Text style={styles.title}>Favorite Movies/TV Shows</Text>
         <View style={styles.button}>
           <TouchableOpacity onPress={() => {
@@ -435,7 +437,7 @@ function UserPage() {
             <Text style={{ color: "#FF3D60", fontSize: 16, marginRight: 5 }}>View All</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </View> */}
 
       <FlatList
         data={movies}
@@ -583,6 +585,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     marginLeft: 20,
     height: "auto",
+    marginTop: 15
   },
   movieGridBig: {
     width: "auto",
