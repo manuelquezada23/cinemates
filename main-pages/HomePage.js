@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import IconFiller from '../assets/icon-filler.png'
 import ActivityFeed from '../components/ActivityFeed';
-import { useNavigation } from '@react-navigation/native';
 import { useIsFocused } from "@react-navigation/native";
 
 const storiesData = [
@@ -130,7 +129,6 @@ function HomePage({ navigation, route }) {
               )
             }
           }
-
           )}
         </View>
       </ScrollView>
@@ -224,7 +222,6 @@ const styles = StyleSheet.create({
     height: 150,
     alignItems: "center",
     marginLeft: 20,
-    // backgroundColor: "blue",
     display: "flex",
     flexDirection: "row"
   },
@@ -298,9 +295,6 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     marginRight: 10,
     marginLeft: 10
-  },
-  storyName: {
-
   },
   storyProfileViewFiller: {
     position: "absolute",
@@ -399,15 +393,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: 5
   },
-
-
-
-
-
-
-
-
-
   header: {
     height: 30,
     width: "100%",

@@ -1,15 +1,8 @@
-import { View, Text, StyleSheet, Image, FlatList, Button, Dimensions, TouchableOpacity } from 'react-native';
-import React, { useRef, useState, useMemo } from 'react';
+import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity } from 'react-native';
+import React, { useRef, useState } from 'react';
 import { Searchbar } from 'react-native-paper';
-import MoreInfo from '../assets/more-info.png'
 import IconFiller from '../assets/icon-filler.png'
-import RBSheet from "react-native-raw-bottom-sheet";
-import MoreOptions from "../components/MoreOptions"
-import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'react-native';
-
-const size = (Dimensions.get('window').width / 3) - (Dimensions.get('window').width * 0.065);
-const marginRight = (Dimensions.get('window').width * 0.05)
 
 const movies = [
   { id: "1", uri: require('../assets/1.jpg') },
@@ -447,9 +440,7 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   movieDisplayItemContainer: {
-    // width: size,
     height: 180,
-    // marginRight: 10,
     flex: 1/3
   },
   movieDisplayItem: {

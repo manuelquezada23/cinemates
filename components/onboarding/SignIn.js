@@ -17,7 +17,6 @@ function SignIn({ navigation }) {
         }
     }
 
-
     return (
         <View style={styles.mainView}>
             <View style={styles.inputs}>

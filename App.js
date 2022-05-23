@@ -1,5 +1,4 @@
 import Main from './Main'
-import { Button } from 'react-native';
 import WelcomePage from './components/onboarding/WelcomePage'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';

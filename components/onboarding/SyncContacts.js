@@ -257,7 +257,6 @@ const styles = StyleSheet.create({
         width: "98%",
         flexGrow: 1,
         marginLeft: 30,
-        // height: "50%"
     },
     itemContainer: {
         width: "93%",
@@ -288,7 +287,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         top: 10,
-        // backgroundColor: "red"
     },
     addedButton: {
         position: "absolute",

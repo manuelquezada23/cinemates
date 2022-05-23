@@ -1,15 +1,12 @@
-import { View, FlatList, Text, StyleSheet, Image, TouchableOpacity, Button, ScrollView, Dimensions } from 'react-native';
+import { View, FlatList, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useRef, useState, useEffect } from 'react'
 import RBSheet from "react-native-raw-bottom-sheet";
-import MoreOptions from "../components/MoreOptions"
 import Stars from 'react-native-stars';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 import ReadMore from '@fawazahmed/react-native-read-more';
 import ActivityFeed from '../components/ActivityFeed';
-import AssetsDisplay from '../components/AssetsDisplay';
-import MovieDisplay from '../components/MovieDisplay';
 
 const currentUser = [
   { name: "Leslie Alexander", picture: require('../assets/icon-filler.png'), bio: "Radio jockey, music lover", followers: "12k", following: "850" },
@@ -437,7 +434,7 @@ function UserPage() {
             <Text style={{ color: "#FF3D60", fontSize: 16, marginRight: 5 }}>View All</Text>
           </TouchableOpacity>
         </View>
-      </View> */}
+      </View>
 
       <FlatList
         data={movies}
@@ -449,7 +446,7 @@ function UserPage() {
           </TouchableOpacity>
         )}
         keyExtractor={item => item.id}
-        horizontal={true} />
+        horizontal={true} /> */}
 
       <RBSheet
         ref={refRBSheet}

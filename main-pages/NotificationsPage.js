@@ -1,8 +1,6 @@
-import { View, Text, StyleSheet, ScrollView, Image, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import IconFiller from '../assets/icon-filler.png'
-import MoreInfo from '../assets/more-info.png'
 import React, { useRef, useState } from 'react'
-import RBSheet from "react-native-raw-bottom-sheet";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { StatusBar } from 'react-native';
 
@@ -33,7 +31,7 @@ const suggested = [
 
 function NotificationsPage() {
 
-  const [notifications, setNofications] = useState({ notificationsThisWeek: thisWeek, notificationsThisMonth: thisMonth, suggested })
+  const [notifications, setNotifications] = useState({ notificationsThisWeek: thisWeek, notificationsThisMonth: thisMonth, suggested })
 
   const refRBSheet = useRef();
 
