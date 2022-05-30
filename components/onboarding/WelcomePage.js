@@ -10,10 +10,15 @@ function WelcomePage({ navigation }) {
                 <View style={styles.textView}>
                     <Text style={styles.welcomeMessage}>Welcome to Cinemates</Text>
                     <Text style={styles.welcomeSubMessage}>Discover the movies you love and
-                        find recommendations based on over 100 million ratings in our database.</Text>
+                        find recommendations based on over 100 million ratings in our database.
+                    </Text>
                 </View>
-                <MainButton buttonColor="#FF3D60" textColor="white" text="Create an Account" onPress={() => navigation.navigate("Sign Up Your Account")} />
-                <MainButton buttonColor="white" textColor="#FF3D60" text="Sign In" onPress={() => navigation.navigate("Sign In Your Account")} />
+                <View style={{ marginLeft: 15, marginBottom: 15 }}>
+                    <MainButton buttonColor="#FF3D60" textColor="white" text="Get Started" onPress={() => navigation.navigate("RegisterFirstName")} />
+                </View>
+                <View style={{ marginLeft: 15 }}>
+                    <MainButton buttonColor="white" textColor="#FF3D60" text="Sign In" onPress={() => navigation.navigate("SignIn")} />
+                </View>
             </View>
         </View>
     );
@@ -25,7 +30,7 @@ const styles = StyleSheet.create({
         height: "55%",
         position: "absolute",
         top: 0
-    }, 
+    },
     bottomElements: {
         position: "absolute",
         bottom: 50
@@ -45,12 +50,11 @@ const styles = StyleSheet.create({
     },
     welcomeMessage: {
         margin: 16,
-        maxWidth: "50%",
+        maxWidth: "60%",
         alignSelf: "flex-start",
         color: "black",
         width: "100%",
         fontWeight: "bold",
-        // fontFamily: "Circular Std",
         fontSize: 32,
         left: 0,
         width: "100%",
@@ -59,7 +63,6 @@ const styles = StyleSheet.create({
     welcomeSubMessage: {
         margin: 16,
         color: "#777777",
-        // fontFamily: "Circular Std",
         fontSize: 15,
         marginTop: 0,
     }
