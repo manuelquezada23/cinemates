@@ -1,18 +1,15 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
-import PopUpImage from '../../assets/sync-contacts-popup.png'
+import PopUpImage from '../../assets/final-step-image.png'
 
-function SyncContactsPopUp({ navigation }) {
+function FinalStep({ navigation }) {
     return (
         <View style={styles.mainView}>
             <Image style={styles.image} source={PopUpImage} />
-            <Text style={styles.title}>Sync your contacts</Text>
-            <Text style={styles.subTitle}>Allow "Cinemates" to sync your contacts while you are using the app</Text>
-            <TouchableOpacity style={[styles.button, { backgroundColor: "#FF3D60" }]} onPress={() => {navigation.navigate("SyncContacts")}}>
-                <Text style={[styles.buttonText, { color: "white" }]}>Allow</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, { backgroundColor: "white", borderColor: "#FF3D60", borderWidth: 1 }]} onPress={() => {navigation.navigate("Main")}}>
-                <Text style={[styles.buttonText, { color: "#FF3D60" }]}>Don't Allow</Text>
+            <Text style={styles.title}>Final step!</Text>
+            <Text style={styles.subTitle}>Play our 40 second game so we can learn more about what movies and television shows you enjoy!</Text>
+            <TouchableOpacity style={[styles.button, { backgroundColor: "#FF3D60" }]} onPress={() => {navigation.navigate("InterestGuide")}}>
+                <Text style={[styles.buttonText, { color: "white" }]}>Let's start!</Text>
             </TouchableOpacity>
         </View>
     );
@@ -26,7 +23,9 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     image: {
-        resizeMode: "contain"
+        resizeMode: "contain",
+        width: 120,
+        height: 120
     },
     title: {
         fontSize: 24,
@@ -54,4 +53,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SyncContactsPopUp;
+export default FinalStep;

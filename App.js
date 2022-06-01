@@ -18,6 +18,8 @@ import RegisterPassword from './components/onboarding/RegisterPassword';
 import SyncContactsPopUp from './components/onboarding/SyncContactsPopUp';
 import ForgotPassword from './components/onboarding/ForgotPassword';
 import VerifyCode from './components/onboarding/VerifyCode';
+import CreateNewPassword from './components/onboarding/CreateNewPassword';
+import FinalStep from './components/onboarding/FinalStep'
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +33,7 @@ export default function App() {
         <Stack.Screen name="SignIn" component={SignIn} options={{ headerTitle: "Sign into your account" }} />
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ headerTitle: "Forgot password" }} />
         <Stack.Screen name="VerifyCode" component={VerifyCode} options={{ headerTitle: "Verify Code" }} />
+        <Stack.Screen name="CreateNewPassword" component={CreateNewPassword} options={{ headerTitle: "Create a new password" }} />
 
         {/* Sign Up Flow */}
         <Stack.Screen name="RegisterFirstName" component={RegisterFirstName} options={{ headerShown: false }} />
@@ -38,10 +41,10 @@ export default function App() {
         <Stack.Screen name="RegisterEmail" component={RegisterEmail} options={{ headerShown: false }} />
         <Stack.Screen name="RegisterUsername" component={RegisterUsername} options={{ headerShown: false }} />
         <Stack.Screen name="RegisterPassword" component={RegisterPassword} options={{ headerShown: false }} />
-        <Stack.Screen name="SyncContactsPopUp" component={SyncContactsPopUp} options={{ headerShown: false }} />
-        <Stack.Screen name="SyncContacts" component={SyncContacts} options={{ headerBackVisible: false, headerTitle: "Invite to Cinemates" }} />
-
-        <Stack.Screen name="Interest Guide" component={InterestGuide} options={{ headerShown: false, gestureEnabled: false }} />
+        <Stack.Screen name="SyncContactsPopUp" component={SyncContactsPopUp} options={{ headerShown: false, gestureEnabled: false }} />
+        <Stack.Screen name="SyncContacts" component={SyncContacts} options={{ headerBackVisible: false, headerTitle: "Invite to Cinemates", gestureEnabled: false }} />
+        <Stack.Screen name="FinalStep" component={FinalStep} options={{ headerShown: false, gestureEnabled: false }} />
+        <Stack.Screen name="InterestGuide" component={InterestGuide} options={{ headerShown: false, gestureEnabled: false }} />
         <Stack.Screen name="Select Your Interest" component={Interest} options={{ headerShown: false, gestureEnabled: false }} />
         <Stack.Screen name="Movies Seen" component={MoviesSeen} options={{ headerShown: false, gestureEnabled: false }} />
         <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />

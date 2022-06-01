@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet, Text } from 'react-native';
+import { View, Image, StyleSheet, Text, TouchableOpacity, Dimensions } from 'react-native';
 import MainButton from '../MainButton'
 import WelcomeFiller from '../../assets/welcome-filler.png'
 
@@ -7,17 +7,21 @@ function WelcomePage({ navigation }) {
         <View style={styles.mainView}>
             <Image style={styles.welcomeFiller} source={WelcomeFiller}></Image>
             <View style={styles.bottomElements}>
-                <View style={styles.textView}>
-                    <Text style={styles.welcomeMessage}>Welcome to Cinemates</Text>
-                    <Text style={styles.welcomeSubMessage}>Discover the movies you love and
-                        find recommendations based on over 100 million ratings in our database.
-                    </Text>
-                </View>
-                <View style={{ marginLeft: 15, marginBottom: 15 }}>
-                    <MainButton buttonColor="#FF3D60" textColor="white" text="Get Started" onPress={() => navigation.navigate("RegisterFirstName")} />
-                </View>
-                <View style={{ marginLeft: 15 }}>
-                    <MainButton buttonColor="white" textColor="#FF3D60" text="Sign In" onPress={() => navigation.navigate("SignIn")} />
+                <View style={{ position: "absolute", bottom: 0, marginBottom: 50 }}>
+                    <View style={styles.textView}>
+                        <Text style={styles.welcomeMessage}>Welcome to Cinemates</Text>
+                        <Text style={styles.welcomeSubMessage}>
+                            Save time searching for movies and television shows through our community-based recommendation system.
+                        </Text>
+                    </View>
+                    <View style={{ justifyContent: "center", alignItems: "center", width: Dimensions.get('window').width }}>
+                        <TouchableOpacity style={[styles.button, { backgroundColor: "#FF3D60", borderColor: "#FF3D60", marginTop: 15, marginBottom: 15 }]} onPress={() => navigation.navigate("RegisterFirstName")}>
+                            <Text style={[styles.buttonText, { color: "white" }]}>Get Started</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.button, { backgroundColor: "white", borderColor: "#FF3D60" }]} onPress={() => navigation.navigate("SignIn")}>
+                            <Text style={[styles.buttonText, { color: "#FF3D60" }]}>Sign In</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
         </View>
@@ -25,21 +29,19 @@ function WelcomePage({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    welcomeFiller: {
-        width: "100%",
-        height: "55%",
-        position: "absolute",
-        top: 0
-    },
-    bottomElements: {
-        position: "absolute",
-        bottom: 50
-    },
     mainView: {
         width: "100%",
         height: "100%",
-        justifyContent: "center",
-        alignItems: "center"
+    },
+    welcomeFiller: {
+        width: "100%",
+        height: "55%",
+    },
+    bottomElements: {
+        height: "45%",
+        display: "flex",
+        flexDirection: "column",
+        position: "relative",
     },
     textView: {
         display: "flex",
@@ -49,7 +51,7 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     welcomeMessage: {
-        margin: 16,
+        marginLeft: 20,
         maxWidth: "60%",
         alignSelf: "flex-start",
         color: "black",
@@ -58,13 +60,29 @@ const styles = StyleSheet.create({
         fontSize: 32,
         left: 0,
         width: "100%",
-        bottom: 0
+        bottom: 0,
+        marginBottom: 15
     },
     welcomeSubMessage: {
-        margin: 16,
+        marginLeft: 20,
         color: "#777777",
         fontSize: 15,
-        marginTop: 0,
+        marginBottom: 15,
+        maxWidth: "90%",
+    },
+    button: {
+        borderRadius: 100,
+        width: "90%",
+        marginLeft: 20,
+        marginRight: 20,
+        height: 40,
+        alignItems: "center",
+        justifyContent: "center",
+        borderWidth: 1
+    },
+    buttonText: {
+        fontSize: 16,
+        fontWeight: "bold"
     }
 });
 

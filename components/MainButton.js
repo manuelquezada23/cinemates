@@ -1,10 +1,10 @@
 import { TouchableOpacity, Text } from 'react-native';
 
-function MainButton({ buttonColor, textColor, text, onPress, width }) {
+function MainButton({ buttonColor, textColor, text, onPress, disabled }) {
     return (
-        <TouchableOpacity onPress={onPress} style={[{
-            width: "95%",
-            height: 45,
+        <TouchableOpacity onPress={onPress} disabled={disabled} style={[{
+            width: "90%",
+            height: 40,
             backgroundColor: buttonColor,
             borderRadius: 100,
             justifyContent: "center",

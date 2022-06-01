@@ -64,7 +64,7 @@ function SyncContacts({ navigation }) {
     React.useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => (
-                <Button onPress={() => navigation.navigate("Main")} title="Done" color="#FF3D60" />
+                <Button onPress={() => navigation.navigate("FinalStep")} title="Done" color="#FF3D60" />
             ),
         });
     }, [navigation]);

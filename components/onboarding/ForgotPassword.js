@@ -6,6 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 function ForgotPassword({ navigation }) {
 
     const [email, setEmail] = useState('')
+    const [validEmail, setValidEmail] = useState(false)
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -17,25 +18,40 @@ function ForgotPassword({ navigation }) {
         });
     }, [navigation]);
 
+    const onChangeValue = (text) => {
+        setEmail(text)
+        if (checkEmail(text)) {
+            setValidEmail(true)
+        } else {
+            setValidEmail(false)
+        }
+    }
+
+
     function action() {
-        //here you would do whatever you want with the email
+        //here you would do whatever you want with the email e.g. (check if email is registered to the app)
         navigation.navigate("VerifyCode", { email: email })
+    }
+
+    function checkEmail(email) {
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        return reg.test(email)
     }
 
     return (
         <View style={styles.mainView}>
-            <Text style={styles.title}>Please enter your registered email address to recieve your verification code</Text>
+            <Text style={styles.largeTitle}>Please enter your registered email address to receive your verification code</Text>
             <View style={styles.inputs}>
                 <Text style={styles.inputInfo}>EMAIL ADDRESS</Text>
                 <TextInput
                     style={styles.input}
                     selectionColor={"#FF3D60"}
-                    onChangeText={(text) => { setEmail(text) }}
+                    onChangeText={onChangeValue}
                     value={email}
                     autoCapitalize={"none"}
                 />
             </View>
-            <MainButton buttonColor="#FF3D60" textColor="white" text="Send" onPress={() => action()} />
+            <MainButton buttonColor={validEmail ? "#FF3D60" : "#D2D3D3"} textColor="white" text="Send" onPress={() => action()} disabled={validEmail ? false : true}/>
         </View>
     );
 }
@@ -51,7 +67,7 @@ const styles = StyleSheet.create({
         width: "100%",
         marginBottom: 25
     },
-    title: {
+    largeTitle: {
         fontSize: 14,
         textAlign: "center",
         marginTop: 30,
@@ -97,7 +113,7 @@ const styles = StyleSheet.create({
         textAlign: "right",
         marginRight: 20,
         fontWeight: "bold"
-    }
+    },
 });
 
 export default ForgotPassword;
